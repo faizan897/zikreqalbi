@@ -426,7 +426,6 @@ var SK='zqb_v9';
 function ldSt(){try{var r=localStorage.getItem(SK);if(r)return JSON.parse(r)}catch(e){}return{};}
 function svSt(){var raw=JSON.stringify(st);try{localStorage.setItem(SK,raw)}catch(e){};}
 var st=ldSt(),lang=st.lang||'en';
-if(!st._v9){LD.forEach(function(l){st[l.id+'_e']=true;});MD.forEach(function(m){st[m.id+'_e']=false;});st._v9=true;svSt();}
 function gE(id){return st[id+'_e']===true;}
 function sE(id,v){st[id+'_e']=!!v;svSt();}
 function gMin(id,def){return typeof st[id+'_m']==='number'?st[id+'_m']:def;}
@@ -931,6 +930,7 @@ window.addEventListener('popstate',function(){
 /* Use window.onload — most reliable for Android WebView file:// protocol */
 window.onload=function(){
   try{
+    if(!st._v9){LD.forEach(function(l){st[l.id+'_e']=true;});MD.forEach(function(m){st[m.id+'_e']=false;});st._v9=true;svSt();}
     applyLang();
     renderAll();
     initFirebase();
