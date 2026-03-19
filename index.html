@@ -328,7 +328,18 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
           <div class="als-cur-ar" id="als-cur-ar"></div>
         </div>
       </div>
-
+async function fetchAgoraToken(role){
+  try{
+    var uid=Math.floor(Math.random()*100000);
+    var url='https://agora-token-service-production-5f3f.up.railway.app/rtc/'+AGORA_CHANNEL+'/'+(role==='host'?'publisher':'subscriber')+'/uid/'+uid+'/?expiry=86400';
+    var r=await fetch(url);
+    var d=await r.json();
+    return d.rtcToken||null;
+  }catch(e){
+    console.warn('Token fetch failed:',e);
+    return null;
+  }
+}
       <!-- Mic (admin only) -->
       <div class="mic-row" id="mic-row" style="display:none">
         <button class="mic-btn" id="mic-btn" onclick="toggleMic()">
@@ -477,6 +488,7 @@ var db={ref:fbRef};
 ═══════════════════════════════════════════════ */
 var AGORA_APP_ID='9131f47908a241dfacda2427d0ee3cd2';
 var AGORA_CHANNEL='zikr-live';
+var AGORA_TOKEN=null;
 var agoraHostClient=null,agoraMicTrack=null;
 var agoraAudClient=null;
 var micOn=false;
@@ -502,7 +514,8 @@ async function toggleMic(){
       if(agoraHostClient){try{if(agoraMicTrack){agoraMicTrack.stop();agoraMicTrack.close();agoraMicTrack=null;}await agoraHostClient.leave();}catch(ex){}agoraHostClient=null;}
       agoraHostClient=AgoraRTC.createClient({mode:'live',codec:'vp8'});
       await agoraHostClient.setClientRole('host');
-      await agoraHostClient.join(AGORA_APP_ID,AGORA_CHANNEL,null,null);
+     var tok=await fetchAgoraToken('host');
+await agoraHostClient.join(AGORA_APP_ID,AGORA_CHANNEL,tok,null);
       agoraMicTrack=await AgoraRTC.createMicrophoneAudioTrack();
       await agoraHostClient.publish([agoraMicTrack]);
       micOn=true;
@@ -535,7 +548,8 @@ async function joinAgoraAudience(){
     if(agoraAudClient){try{await agoraAudClient.leave();}catch(ex){}agoraAudClient=null;}
     agoraAudClient=AgoraRTC.createClient({mode:'live',codec:'vp8'});
     await agoraAudClient.setClientRole('audience');
-    await agoraAudClient.join(AGORA_APP_ID,AGORA_CHANNEL,null,null);
+    var tok=await fetchAgoraToken('audience');
+await agoraAudClient.join(AGORA_APP_ID,AGORA_CHANNEL,tok,null);
     agoraAudClient.on('user-published',function(user,mediaType){
       agoraAudClient.subscribe(user,mediaType).then(function(){
         if(mediaType==='audio')user.audioTrack.play();
