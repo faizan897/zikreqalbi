@@ -22,7 +22,7 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .hdr h1{font-family:var(--f);font-size:22px;font-weight:normal;color:var(--text);letter-spacing:0.5px;margin-top:3px}
 .hdr p{font-size:10px;color:var(--text3);margin-top:4px;letter-spacing:1.5px;text-transform:uppercase}
 
-/* Lang + mode bar */
+/* Topbar */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:4px 16px 10px;gap:8px}
 .lw{position:relative;flex:1}
 .ls{appearance:none;-webkit-appearance:none;background:var(--bg2);border:0.5px solid var(--border2);color:var(--gold);padding:6px 26px 6px 10px;border-radius:8px;font-size:12px;font-family:var(--fu);cursor:pointer;outline:none;width:100%}
@@ -31,27 +31,50 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .admin-btn{padding:7px 14px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:8px;font-size:11px;font-weight:500;color:var(--text2);cursor:pointer;white-space:nowrap;font-family:var(--fu)}
 .admin-btn.active{color:var(--gold);border-color:var(--gold)}
 
-/* Live banner */
-.live-banner{margin:0 16px 12px;border-radius:var(--rl);padding:12px 16px;display:none;position:relative;overflow:hidden}
-.live-banner.on{display:flex;align-items:center;gap:10px;background:rgba(124,106,247,0.15);border:0.5px solid var(--accent)}
-.live-dot{width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0;animation:pulse 1.5s infinite}
+/* Live banner — Facebook-style */
+.live-banner{margin:0 16px 12px;border-radius:var(--rl);padding:12px 16px;display:none;align-items:center;gap:10px;background:rgba(124,106,247,0.15);border:0.5px solid var(--accent)}
+.live-banner.on{display:flex}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
-.live-text{flex:1;font-size:13px;font-weight:500;color:var(--text)}
+.live-badge{display:flex;align-items:center;gap:5px;background:rgba(224,80,80,0.25);border:0.5px solid rgba(224,80,80,0.5);border-radius:20px;padding:3px 8px 3px 6px;flex-shrink:0}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.4s infinite}
+.live-badge-txt{font-size:11px;font-weight:700;color:var(--red);letter-spacing:0.5px}
+.live-count{font-size:11px;color:var(--text2);margin-left:3px;font-variant-numeric:tabular-nums}
+.live-text{flex:1;font-size:13px;font-weight:500;color:var(--text);min-width:0}
 .live-sub{font-size:10px;color:var(--text2);margin-top:1px}
-.join-btn{padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fu);box-shadow:0 2px 10px rgba(124,106,247,0.4)}
+.join-btn{padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--fu);box-shadow:0 2px 10px rgba(124,106,247,0.4);flex-shrink:0}
 
-/* Live active item display (mureed view) */
-.live-active{margin:0 16px 12px;border-radius:var(--rxl);padding:20px 16px;text-align:center;background:var(--bg2);border:0.5px solid var(--border);position:relative;overflow:hidden;display:none}
+/* Voice bar */
+.voice-bar{display:none;align-items:center;gap:6px;padding:8px 14px;background:rgba(224,80,80,0.1);border-radius:var(--r);margin:0 16px 10px;border:0.5px solid rgba(224,80,80,0.3)}
+.voice-bar.on{display:flex}
+.vb-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1s infinite}
+.vb-txt{font-size:11px;color:var(--red)}
+
+/* Live active card — BROADER with breathing glow */
+.live-active{margin:0 16px 12px;border-radius:var(--rxl);padding:24px 20px;text-align:center;background:var(--bg2);border:0.5px solid var(--border);position:relative;overflow:hidden;display:none}
 .live-active::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--gold),var(--accent),transparent)}
-.la-label{font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
-.la-arabic{font-family:var(--f);font-size:26px;color:var(--gold);letter-spacing:1px;margin-bottom:4px}
-.la-name{font-size:18px;font-weight:500;color:var(--text);margin-bottom:8px}
-.la-color-dot{width:18px;height:18px;border-radius:50%;margin:0 auto 6px;animation:glow-pulse 2s infinite}
-@keyframes glow-pulse{0%,100%{transform:scale(1);box-shadow:0 0 8px currentColor}50%{transform:scale(1.2);box-shadow:0 0 18px currentColor}}
+/* Breathing border glow — color set via JS on --live-col */
+@keyframes breathe-border{
+  0%,100%{box-shadow:0 0 0 0 transparent,inset 0 0 0 0 transparent}
+  50%{box-shadow:0 0 28px 4px var(--live-col,rgba(200,168,75,0.3)),inset 0 0 0 0 transparent}
+}
+.live-active.breathing{animation:breathe-border 3s ease-in-out infinite}
+.la-label{font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.la-color-ring{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;position:relative;display:flex;align-items:center;justify-content:center}
+@keyframes ring-breathe{0%,100%{box-shadow:0 0 12px 3px var(--rc,#c8a84b),0 0 0 0 transparent}50%{box-shadow:0 0 28px 8px var(--rc,#c8a84b),0 0 40px 12px var(--rc,#c8a84b)44}}
+.la-color-ring{animation:ring-breathe 3s ease-in-out infinite}
+.la-arabic{font-family:var(--f);font-size:28px;color:var(--gold);letter-spacing:1px;margin-bottom:4px}
+.la-name{font-size:20px;font-weight:600;color:var(--text);margin-bottom:6px}
+.la-type-badge{display:inline-block;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(124,106,247,0.2);color:var(--accent);border:0.5px solid rgba(124,106,247,0.4);letter-spacing:0.5px;margin-bottom:8px}
 .la-detail{font-size:11px;color:var(--text2);line-height:1.6}
-.la-ayat{font-family:var(--f);font-size:15px;color:var(--gold);direction:rtl;text-align:right;margin-top:8px;line-height:1.7}
+.la-ayat{font-family:var(--f);font-size:15px;color:var(--gold);direction:rtl;text-align:right;margin-top:10px;line-height:1.7}
 .la-ayat-ref{font-size:9px;color:var(--text3);margin-top:2px}
 .la-trans{font-size:11px;color:var(--text2);font-style:italic;margin-top:4px;line-height:1.5}
+.la-dur-row{margin-top:14px;padding-top:12px;border-top:0.5px solid var(--border);font-size:22px;font-weight:300;color:var(--gold);font-variant-numeric:tabular-nums;letter-spacing:2px}
+.la-dur-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+
+/* Exit button */
+.exit-live-btn{display:none;width:calc(100% - 32px);margin:0 16px 12px;padding:11px;background:rgba(224,80,80,0.12);color:var(--red);border:0.5px solid rgba(224,80,80,0.4);border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;font-family:var(--fu);text-align:center}
+.exit-live-btn:active{transform:scale(0.98)}
 
 /* Tabs */
 .tabs{display:flex;margin:0 16px 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:3px;gap:3px}
@@ -64,11 +87,10 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 
 /* Item rows */
 .ir{display:flex;align-items:center;gap:9px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:9px 12px;margin:0 16px 6px;transition:all 0.25s}
-.ir.active{border-color:var(--accent);background:rgba(124,106,247,0.12)}
-.ir.done{opacity:0.38}
 .ir.dis{opacity:0.3}
-.ir.live-current{border-color:var(--gold);background:rgba(200,168,75,0.1);animation:row-glow 2s infinite}
-@keyframes row-glow{0%,100%{border-color:var(--gold)}50%{border-color:rgba(200,168,75,0.4)}}
+.ir.live-current{border-color:var(--gold) !important;background:rgba(200,168,75,0.1) !important}
+@keyframes row-glow{0%,100%{border-color:var(--gold)}50%{border-color:rgba(200,168,75,0.35)}}
+.ir.live-current{animation:row-glow 2.5s infinite}
 .idot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
 .ii{flex:1;min-width:0;cursor:pointer}
 .in{font-size:13px;font-weight:500;color:var(--text)}
@@ -88,11 +110,12 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .tot .et{color:var(--gold)}
 .bbn{display:block;width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:var(--rl);font-size:15px;font-weight:600;cursor:pointer;font-family:var(--fu);letter-spacing:0.5px;box-shadow:0 4px 20px rgba(124,106,247,0.4)}
 .bbn:active{transform:scale(0.98)}
+.bbn:disabled{opacity:0.35;cursor:not-allowed;transform:none}
 
 /* Session view */
 .tc{margin:0 16px 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--rxl);padding:20px 16px 16px;text-align:center;position:relative;overflow:hidden}
 .tc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--gold),var(--accent),transparent)}
-.cn{font-size:12px;color:var(--text2);margin-bottom:6px;letter-spacing:0.5px}
+.cn{font-size:12px;color:var(--text2);margin-bottom:6px}
 .ca{font-family:var(--f);font-size:22px;color:var(--gold);margin-bottom:10px;letter-spacing:1px}
 .lcw{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
 .lcd{width:22px;height:22px;border-radius:50%;flex-shrink:0}
@@ -107,7 +130,7 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .dr{display:flex;align-items:flex-start;gap:10px;padding:9px 14px;border-bottom:0.5px solid var(--border)}
 .dr:last-child{border-bottom:none}
 .di{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.dl{font-size:10px;color:var(--text3);margin-bottom:2px;letter-spacing:0.3px}
+.dl{font-size:10px;color:var(--text3);margin-bottom:2px}
 .dv{font-size:13px;font-weight:500;color:var(--text)}
 .dvsm{font-size:11px;color:var(--text2);line-height:1.5}
 .ayr{font-family:var(--f);font-size:17px;color:var(--gold);line-height:1.7;direction:rtl;text-align:right;margin-bottom:4px}
@@ -128,7 +151,7 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .sec{display:none}.sec.vis{display:block}
 
 /* Admin panel */
-.admin-panel{padding:0 16px}
+.admin-panel-wrap{padding:0 16px}
 .ap-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .ap-title{font-size:16px;font-weight:500;color:var(--text)}
 .ap-status{font-size:11px;padding:4px 10px;border-radius:20px;font-weight:500}
@@ -138,24 +161,40 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .stype-btn{flex:1;padding:10px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:500;cursor:pointer;color:var(--text2);font-family:var(--fu);text-align:center;transition:all 0.2s}
 .stype-btn.selected{background:rgba(200,168,75,0.15);border-color:var(--gold);color:var(--gold)}
 .ap-start{display:block;width:100%;padding:13px;background:var(--green);color:#fff;border:none;border-radius:var(--rl);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fu);margin-bottom:8px;letter-spacing:0.5px}
-.ap-end{display:block;width:100%;padding:13px;background:rgba(224,80,80,0.2);color:var(--red);border:0.5px solid var(--red);border-radius:var(--rl);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fu);margin-bottom:12px;letter-spacing:0.5px;display:none}
+.ap-end{display:none;width:100%;padding:13px;background:rgba(224,80,80,0.2);color:var(--red);border:0.5px solid var(--red);border-radius:var(--rl);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fu);margin-bottom:12px;letter-spacing:0.5px}
+.als-row{display:flex;gap:8px;margin-bottom:8px}
+.als-box{flex:1;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:10px;text-align:center}
+.als-val{font-size:20px;font-weight:600;color:var(--gold);font-variant-numeric:tabular-nums}
+.als-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+/* Current latifa strip in admin */
+.als-cur{display:none;align-items:center;gap:10px;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--r);padding:10px 14px;margin-bottom:10px}
+.als-cur.on{display:flex}
+.als-cur-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+.als-cur-body{flex:1;min-width:0}
+.als-cur-sub{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.als-cur-name{font-size:13px;font-weight:600;color:var(--text);margin-top:2px}
+.als-cur-ar{font-family:var(--f);font-size:16px;color:var(--gold);flex-shrink:0}
+/* Grid */
 .ap-grid-label{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin:8px 0 6px}
 .ap-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
 .ap-item{padding:10px 12px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden}
 .ap-item:active{transform:scale(0.97)}
-.ap-item.current{border-color:var(--gold);background:rgba(200,168,75,0.12)}
-.ap-item.current::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
+.ap-item.cur{border-color:var(--gold);background:rgba(200,168,75,0.12)}
+.ap-item.cur::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
 .ap-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
 .ap-name{font-size:12px;font-weight:500;color:var(--text);display:inline;vertical-align:middle}
-.ap-ar{font-family:var(--f);font-size:11px;color:var(--gold);opacity:0.7;display:block;margin-top:3px;text-align:right}
+
+/* Mic */
 .mic-row{display:flex;align-items:center;gap:10px;background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:12px 14px;margin-bottom:10px}
-.mic-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s}
-.mic-btn.off{background:var(--bg3)}
-.mic-btn.on{background:var(--red);box-shadow:0 0 16px rgba(224,80,80,0.5);animation:mic-pulse 1.5s infinite}
+.mic-btn{width:44px;height:44px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;background:var(--bg3)}
+.mic-btn.on{background:var(--red);box-shadow:0 0 16px rgba(224,80,80,0.5)}
 @keyframes mic-pulse{0%,100%{box-shadow:0 0 16px rgba(224,80,80,0.5)}50%{box-shadow:0 0 28px rgba(224,80,80,0.8)}}
-.mic-info{flex:1}
+.mic-btn.on{animation:mic-pulse 1.5s infinite}
 .mic-label{font-size:13px;font-weight:500;color:var(--text)}
 .mic-sub{font-size:10px;color:var(--text2);margin-top:2px}
+/* Logout */
+.logout-btn{display:block;width:100%;padding:11px;background:transparent;color:var(--text3);border:0.5px solid var(--border);border-radius:var(--r);font-size:12px;cursor:pointer;font-family:var(--fu);margin-top:16px;text-align:center}
+.logout-btn:active{background:rgba(224,80,80,0.1);color:var(--red);border-color:rgba(224,80,80,0.4)}
 
 /* Modal */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:100;display:flex;align-items:flex-end;justify-content:center}
@@ -168,35 +207,29 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
 .mc{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:0.5px solid var(--border2);color:var(--text2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
 /* PIN overlay */
-.pin-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;align-items:center;justify-content:center}
+.pin-ov{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;display:flex;align-items:center;justify-content:center}
 .pin-box{background:var(--bg2);border-radius:var(--rxl);padding:28px 24px;width:300px;border:0.5px solid var(--border2);text-align:center}
 .pin-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:6px}
 .pin-sub{font-size:12px;color:var(--text2);margin-bottom:16px}
-.pin-input{width:100%;padding:12px;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:20px;text-align:center;letter-spacing:8px;font-family:var(--fu);outline:none;margin-bottom:12px}
-.pin-input:focus{border-color:var(--accent)}
-.pin-submit{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fu);margin-bottom:8px}
-.pin-cancel{width:100%;padding:10px;background:transparent;color:var(--text2);border:0.5px solid var(--border);border-radius:var(--r);font-size:13px;cursor:pointer;font-family:var(--fu)}
-.pin-error{font-size:12px;color:var(--red);margin-bottom:8px;display:none}
-
-/* Voice indicator */
-.voice-bar{display:flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(224,80,80,0.1);border-radius:var(--r);margin:0 16px 10px;border:0.5px solid rgba(224,80,80,0.3);display:none}
-.voice-bar.on{display:flex}
-.vb-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1s infinite}
-.vb-txt{font-size:11px;color:var(--red)}
+.pin-err{font-size:12px;color:var(--red);margin-bottom:8px;display:none}
+.pin-inp{width:100%;padding:12px;background:var(--bg3);border:0.5px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:20px;text-align:center;letter-spacing:8px;font-family:var(--fu);outline:none;margin-bottom:12px}
+.pin-inp:focus{border-color:var(--accent)}
+.pin-ok{width:100%;padding:12px;background:var(--accent);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fu);margin-bottom:8px}
+.pin-cx{width:100%;padding:10px;background:transparent;color:var(--text2);border:0.5px solid var(--border);border-radius:var(--r);font-size:13px;cursor:pointer;font-family:var(--fu)}
 </style>
 </head>
 <body>
 <div class="app">
 
-<!-- PIN Overlay -->
-<div id="pin-overlay" class="pin-overlay" style="display:none">
+<!-- PIN overlay -->
+<div id="pin-ov" class="pin-ov" style="display:none">
   <div class="pin-box">
     <div class="pin-title" id="pin-title">Enter Access PIN</div>
-    <div class="pin-sub" id="pin-sub">Enter your 6-digit PIN</div>
-    <div class="pin-error" id="pin-error">Incorrect PIN. Try again.</div>
-    <input type="password" inputmode="numeric" maxlength="6" class="pin-input" id="pin-input" placeholder="••••••">
-    <button class="pin-submit" onclick="checkPin()">Enter</button>
-    <button class="pin-cancel" onclick="cancelPin()">Cancel</button>
+    <div class="pin-sub">Admin PIN or Helper PIN</div>
+    <div class="pin-err" id="pin-err">Incorrect PIN. Try again.</div>
+    <input type="password" inputmode="numeric" maxlength="6" class="pin-inp" id="pin-inp" placeholder="••••••">
+    <button class="pin-ok" onclick="checkPin()">Enter</button>
+    <button class="pin-cx" onclick="cancelPin()">Cancel</button>
   </div>
 </div>
 
@@ -213,7 +246,7 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- MAIN VIEW -->
 <div id="sv">
   <div class="hdr">
     <div class="at">ذکرِ قلبی</div>
@@ -230,49 +263,75 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
       </select>
       <span class="la">▼</span>
     </div>
-    <button class="admin-btn" id="admin-toggle-btn" onclick="handleAdminBtn()">Admin</button>
+    <button class="admin-btn" id="admin-btn" onclick="handleAdminBtn()">Admin</button>
   </div>
 
-  <!-- Live banner — shown when session is active, hidden for admin/helper -->
+  <!-- Live banner (mureed — session active, not yet joined) -->
   <div class="live-banner" id="live-banner">
-    <div class="live-dot"></div>
-    <div>
-      <div class="live-text" id="live-text">Live Zikr in Progress</div>
-      <div class="live-sub" id="live-sub">Tap Join to participate</div>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      <span class="live-badge-txt">LIVE</span>
+      <span class="live-count" id="live-count"></span>
     </div>
-    <button class="join-btn" id="join-btn" onclick="joinLive()">Join</button>
+    <div style="flex:1;min-width:0">
+      <div class="live-text">Zikr in Progress</div>
+      <div class="live-sub">Tap Join to participate</div>
+    </div>
+    <button class="join-btn" onclick="joinLive()">Join</button>
   </div>
 
-  <!-- Voice bar (listener) -->
+  <!-- Voice bar -->
   <div class="voice-bar" id="voice-bar">
     <div class="vb-dot"></div>
-    <div class="vb-txt" id="voice-bar-txt">Hazrat ji is speaking live</div>
+    <div class="vb-txt" id="vb-txt">Hazrat ji is speaking live</div>
   </div>
 
-  <!-- Live active item display (mureed joined view) -->
+  <!-- Live active card (mureed joined) -->
   <div class="live-active" id="live-active">
     <div class="la-label" id="la-label">Currently</div>
-    <div class="la-color-dot" id="la-cdot"></div>
+    <div class="la-color-ring" id="la-ring"></div>
     <div class="la-arabic" id="la-ar"></div>
     <div class="la-name" id="la-nm"></div>
+    <div class="la-type-badge" id="la-badge"></div>
     <div class="la-detail" id="la-det"></div>
     <div class="la-ayat" id="la-ayat"></div>
     <div class="la-ayat-ref" id="la-ayat-ref"></div>
     <div class="la-trans" id="la-trans"></div>
-    <div id="live-dur" style="font-size:11px;color:var(--text3);margin-top:10px;letter-spacing:0.5px"></div>
+    <div class="la-dur-row" id="la-dur">00:00</div>
+    <div class="la-dur-lbl">Duration</div>
   </div>
+
+  <!-- Exit live button -->
+  <button class="exit-live-btn" id="exit-btn" onclick="exitLive()">✕ Exit Live Zikr</button>
 
   <!-- ADMIN PANEL -->
   <div id="admin-panel" style="display:none">
-    <div class="admin-panel">
+    <div class="admin-panel-wrap">
       <div class="ap-header">
-        <div class="ap-title" id="ap-title">Admin Panel</div>
+        <div class="ap-title">Admin Panel</div>
         <div class="ap-status off" id="ap-status">Offline</div>
       </div>
 
-      <!-- Mic control (admin only) -->
+      <!-- Live stats (shown while session active) -->
+      <div id="als-wrap" style="display:none">
+        <div class="als-row">
+          <div class="als-box"><div class="als-val" id="als-dur">00:00</div><div class="als-lbl">Duration</div></div>
+          <div class="als-box"><div class="als-val" id="als-users">0</div><div class="als-lbl">Participants</div></div>
+        </div>
+        <!-- Current latifa strip -->
+        <div class="als-cur" id="als-cur">
+          <div class="als-cur-dot" id="als-cur-dot"></div>
+          <div class="als-cur-body">
+            <div class="als-cur-sub">Currently On</div>
+            <div class="als-cur-name" id="als-cur-name">—</div>
+          </div>
+          <div class="als-cur-ar" id="als-cur-ar"></div>
+        </div>
+      </div>
+
+      <!-- Mic (admin only) -->
       <div class="mic-row" id="mic-row" style="display:none">
-        <button class="mic-btn off" id="mic-btn" onclick="toggleMic()">
+        <button class="mic-btn" id="mic-btn" onclick="toggleMic()">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#fff">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
@@ -280,26 +339,27 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
             <line x1="8" y1="23" x2="16" y2="23"/>
           </svg>
         </button>
-        <div class="mic-info">
+        <div>
           <div class="mic-label" id="mic-label">Microphone Off</div>
           <div class="mic-sub" id="mic-sub">Tap to start broadcasting voice</div>
         </div>
       </div>
 
-      <div class="session-type-row" id="session-type-row">
-        <button class="stype-btn selected" id="stype-maghrib" onclick="setSessionType('maghrib')">🌙 Maghrib</button>
-        <button class="stype-btn" id="stype-tahajjud" onclick="setSessionType('tahajjud')">⭐ Tahajjud</button>
+      <div class="session-type-row" id="stype-row">
+        <button class="stype-btn selected" id="stype-mag" onclick="setSessionType('maghrib')">🌙 Maghrib</button>
+        <button class="stype-btn" id="stype-tah" onclick="setSessionType('tahajjud')">⭐ Tahajjud</button>
       </div>
 
-      <button class="ap-start" id="ap-start-btn" onclick="adminStartSession()">▶ Start Live Session</button>
-      <div id="live-dur-admin" style="display:none;text-align:center;font-size:13px;color:var(--gold);margin-bottom:8px;font-variant-numeric:tabular-nums"></div>
-      <button class="ap-end" id="ap-end-btn" onclick="adminEndSession()">■ End Session</button>
+      <button class="ap-start" id="ap-start" onclick="adminStart()">▶ Start Live Session</button>
+      <button class="ap-end" id="ap-end" onclick="adminEnd()">■ End Session</button>
 
-      <div id="ap-items-container"></div>
+      <div id="ap-grid-wrap"></div>
+
+      <button class="logout-btn" onclick="doLogout()">⎋ Logout</button>
     </div>
   </div>
 
-  <!-- PERSONAL ZIKR TABS -->
+  <!-- PERSONAL PANEL -->
   <div id="personal-panel">
     <div class="tabs">
       <button class="tab active" id="tbl" onclick="swTab('l')"></button>
@@ -347,104 +407,155 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
   <div class="sc" id="sc"></div>
   <div class="fin" id="fin">
     <div class="ab">الحمد لله</div>
-    <h2 id="fh"></h2>
-    <p id="fp"></p>
-    <p id="fq1" style="font-family:'Georgia',serif;font-size:17px;color:var(--gold);line-height:2;margin-top:20px;white-space:pre-line;direction:rtl;text-align:center"></p>
-    <p id="fq2" style="font-family:'Georgia',serif;font-size:12px;color:var(--text2);line-height:1.9;margin-top:10px;white-space:pre-line;font-style:italic;text-align:center;opacity:0.75"></p>
+    <h2 id="fh"></h2><p id="fp"></p>
+    <p id="fq1" style="font-family:Georgia,serif;font-size:17px;color:var(--gold);line-height:2;margin-top:20px;white-space:pre-line;direction:rtl;text-align:center"></p>
+    <p id="fq2" style="font-family:Georgia,serif;font-size:12px;color:var(--text2);line-height:1.9;margin-top:10px;white-space:pre-line;font-style:italic;text-align:center;opacity:0.75"></p>
   </div>
   <div class="sl2" id="sl2"></div>
 </div>
 
-</div>
+</div><!-- .app -->
 
-<!-- No external scripts needed - using Firebase REST API directly -->
 <script>
-/* ── FIREBASE REST API (works in Android WebView without CDN) ── */
-var FB_URL='https://zikr-e-qalbi-default-rtdb.asia-southeast1.firebasedatabase.app';
-var FB_SECRET=''; // empty = public read/write (test mode)
+/* ════════════════════════════════════════════════
+   FIREBASE REST + SSE
+═══════════════════════════════════════════════ */
+var FB='https://zikr-e-qalbi-default-rtdb.asia-southeast1.firebasedatabase.app';
+/* Per-path cache so SSE PATCH events (partial updates) are merged correctly.
+   Without this, a PATCH with only {current:'rooh'} would be processed as
+   {current:'rooh'} — missing active:true — causing the banner to disappear. */
+var _sseCache={};
 
-function makeRef(path){
+function fbRef(path){
   return {
-    on: function(event, cb){
-      var url = FB_URL + path + '.json';
+    on:function(ev,cb){
+      var url=FB+path+'.json';
+      if(!_sseCache[path])_sseCache[path]={};
+      function fire(){cb({val:function(){return JSON.parse(JSON.stringify(_sseCache[path]));}});}
       function connect(){
         try{
-          var es = new EventSource(url);
-          es.addEventListener('put', function(e){
-            try{var d=JSON.parse(e.data); cb({val:function(){return d.data;}});}catch(x){}
+          var es=new EventSource(url);
+          es.addEventListener('put',function(e){
+            try{
+              var d=JSON.parse(e.data);
+              /* PUT replaces entire node */
+              _sseCache[path]=d.data&&typeof d.data==='object'?d.data:{};
+              fire();
+            }catch(x){}
           });
-          es.addEventListener('patch', function(e){
-            try{var d=JSON.parse(e.data); cb({val:function(){return d.data;}});}catch(x){}
+          es.addEventListener('patch',function(e){
+            try{
+              var d=JSON.parse(e.data);
+              /* PATCH merges changed fields only — preserve all other fields */
+              if(d.data&&typeof d.data==='object'){
+                Object.keys(d.data).forEach(function(k){_sseCache[path][k]=d.data[k];});
+              }
+              fire();
+            }catch(x){}
           });
-          es.onerror = function(){es.close(); setTimeout(connect, 3000);};
+          es.onerror=function(){es.close();setTimeout(connect,3000);};
         }catch(x){
-          var last = null;
+          var last=null;
           setInterval(function(){
             fetch(url).then(function(r){return r.json();}).then(function(d){
-              var s = JSON.stringify(d);
-              if(s !== last){last = s; cb({val:function(){return d;}});}
+              var s=JSON.stringify(d);
+              if(s!==last){last=s;_sseCache[path]=d&&typeof d==='object'?d:{};fire();}
             }).catch(function(){});
-          }, 2000);
+          },2500);
         }
       }
       connect();
     },
-    set: function(data){
-      fetch(FB_URL + path + '.json', {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      }).catch(function(e){console.log('Firebase write error:', e);});
-    },
-    update: function(data){
-      fetch(FB_URL + path + '.json', {
-        method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(data)
-      }).catch(function(){});
-    }
+    update:function(data){fetch(FB+path+'.json',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});},
+    set:function(data){fetch(FB+path+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});}
   };
 }
-var db = {ref: makeRef};
+var db={ref:fbRef};
 
-/* ── AGORA CONFIG ── */
+/* ════════════════════════════════════════════════
+   AGORA
+═══════════════════════════════════════════════ */
 var AGORA_APP_ID='9131f47908a241dfacda2427d0ee3cd2';
 var AGORA_CHANNEL='zikr-live';
-var agoraClient=null,agoraMicTrack=null,agoraJoined=false;
-
-/* ── PINS ── */
-var PIN_ADMIN='786786';
-var PIN_HELPER='786787';
-
-/* ── ACCESS LEVELS ── */
-var ACC={NONE:0,HELPER:1,ADMIN:2};
-var access=ACC.NONE;
-var pinPurpose=''; // 'admin' or 'helper'
-
-/* ── LOCAL STORAGE ── */
-var SK='zqb_v9';
-function ldSt(){try{var r=localStorage.getItem(SK);if(r)return JSON.parse(r)}catch(e){}return{};}
-function svSt(){var raw=JSON.stringify(st);try{localStorage.setItem(SK,raw)}catch(e){};}
-var st=ldSt(),lang=st.lang||'en';
-function gE(id){return st[id+'_e']===true;}
-function sE(id,v){st[id+'_e']=!!v;svSt();}
-function gMin(id,def){return typeof st[id+'_m']==='number'?st[id+'_m']:def;}
-function sMin(id,v){st[id+'_m']=v;svSt();}
-
-/* ── SESSION STATE ── */
-var liveSession={active:false,current:null,type:'maghrib'};
-var joinedLive=false;
-var sessionType='maghrib';
+var agoraHostClient=null,agoraMicTrack=null;
+var agoraAudClient=null;
 var micOn=false;
 
-/* Firebase listener is started after all data is loaded - see initFirebase() below */
+function loadAgora(){
+  return new Promise(function(res,rej){
+    if(window.AgoraRTC){res();return;}
+    var s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.19.0/AgoraRTC_N.js';
+    s.onload=res;
+    s.onerror=function(){rej(new Error('Agora load failed'));};
+    document.head.appendChild(s);
+  });
+}
 
-/* ── TRANSLATIONS ── */
-var TR={
-  en:{title:'Zikr-e-Qalbi',sub:'Silsila Naqshbandia Owaisia',lataif:'Lataif',muraqbat:'Muraqbat',syncL:'Same time for all lataif',syncM:'Same time for all muraqbat',ruh:'5 Lataif of Ruh',body:'2 Lataif of Body',sal:'Maraqbaat-e Salasah',daw:'Dawair-e Muhabbat',fur:'Further Maraqbaat',adv:'Advanced Maraqbaat',total:'Total',ends:'Ends',begin:'Begin Session',on:'on',off:'off',pause:'Pause',resume:'Resume',skip:'Skip',end:'End',newS:'New Session',elapsed:'elapsed',finH:'Session Complete',finP:'May Allah accept your worship\nand illuminate your heart.',finQ1:'ایں آں نعمت است کہ حسرت برد بر ایں\nجویان تخت قیصر و ملک سکندری',finQ2:"Those who covet Caesar's throne\nOr Alexander's kingdom and might\nIn tears of regret would soon drown\nFor considering these Blessings slight",ll:'Lataif',ml:'Muraqbat',lc:'Light Colour',fp2:'Faiz of Prophet',hv:'Heaven',desc:'Description',ay:'Quranic Ayah',tr:'Translation',loc:'Location',liveJoin:'Live Zikr in Progress',liveSub:'Tap Join to participate',liveActive:'Currently',joinedLive:'You are joined — listening live',adminPanel:'Admin Panel',startSess:'▶ Start Live Session',endSess:'■ End Session',micOff:'Microphone Off',micOn2:'Broadcasting Voice Live',micOnSub:'Murideen worldwide can hear you',micOffSub:'Tap to start broadcasting voice',helperMode:'Helper Mode',maghrib:'Maghrib Zikr',tahajjud:'Tahajjud Zikr'},
-  ur:{title:'ذکرِ قلبی',sub:'سلسلہ نقشبندیہ اویسیہ',lataif:'لطائف',muraqbat:'مراقبات',syncL:'تمام لطائف کا وقت یکساں',syncM:'تمام مراقبات کا وقت یکساں',ruh:'روح کے پانچ لطائف',body:'جسم کے دو لطائف',sal:'مراقباتِ ثلاثہ',daw:'دوائرِ محبت',fur:'مزید مراقبات',adv:'اعلیٰ مراقبات',total:'کل',ends:'ختم',begin:'سیشن شروع کریں',on:'فعال',off:'بند',pause:'روکیں',resume:'جاری',skip:'چھوڑیں',end:'ختم',newS:'نیا سیشن',elapsed:'گزرا',finH:'سیشن مکمل',finP:'اللہ آپ کی عبادت قبول فرمائے\nاور آپ کے دل کو منور کرے۔',finQ1:'ایں آں نعمت است کہ حسرت برد بر ایں\nجویان تخت قیصر و ملک سکندری',finQ2:"Those who covet Caesar's throne\nOr Alexander's kingdom and might\nIn tears of regret would soon drown\nFor considering these Blessings slight",ll:'لطائف',ml:'مراقبات',lc:'نور کا رنگ',fp2:'نبی کا فیض',hv:'آسمان',desc:'تفصیل',ay:'قرآنی آیت',tr:'ترجمہ',loc:'مقام',liveJoin:'لائیو ذکر جاری ہے',liveSub:'شامل ہونے کیلئے ٹیپ کریں',liveActive:'ابھی',joinedLive:'آپ لائیو سیشن میں شامل ہیں',adminPanel:'ایڈمن پینل',startSess:'▶ لائیو سیشن شروع کریں',endSess:'■ سیشن ختم کریں',micOff:'مائیکروفون بند',micOn2:'آواز براڈکاسٹ ہو رہی ہے',micOnSub:'دنیا بھر کے مریدین سن رہے ہیں',micOffSub:'آواز شروع کرنے کیلئے ٹیپ کریں',helperMode:'معاون موڈ',maghrib:'مغرب ذکر',tahajjud:'تہجد ذکر'},
-  ta:{title:'ஜிக்ர்-இ-கல்பி',sub:'சில்சிலா நக்ஷ்பந்தியா ஓவைசியா',lataif:'லதாயிஃப்',muraqbat:'முராக்பாத்',syncL:'அனைத்துக்கும் ஒரே நேரம்',syncM:'அனைத்துக்கும் ஒரே நேரம்',ruh:'ரூஹின் 5 லதாயிஃப்',body:'உடலின் 2 லதாயிஃப்',sal:'முராக்பாத்-இ-சலாசா',daw:'தவாயிர்-இ-முஹப்பத்',fur:'மேலும் முராக்பாத்',adv:'உயர் முராக்பாத்',total:'மொத்தம்',ends:'முடியும்',begin:'அமர்வு தொடங்கு',on:'இயக்கு',off:'நிறுத்து',pause:'இடைநிறுத்து',resume:'தொடர்',skip:'தவிர்',end:'முடி',newS:'புதிய அமர்வு',elapsed:'கடந்தது',finH:'அமர்வு நிறைவு',finP:'அல்லாஹ் உங்கள் வணக்கத்தை ஏற்றுக்கொள்ளட்டும்\nமற்றும் உங்கள் இதயத்தை ஒளிரச் செய்யட்டும்.',finQ1:'ایں آں نعمت است کہ حسرت برد بر ایں\nجویان تخت قیصر و ملک سکندری',finQ2:"Those who covet Caesar's throne\nOr Alexander's kingdom and might\nIn tears of regret would soon drown\nFor considering these Blessings slight",ll:'லதாயிஃப்',ml:'முராக்பாத்',lc:'நூரின் நிறம்',fp2:'நபியின் ஃபைழ்',hv:'வானம்',desc:'விளக்கம்',ay:'குர்ஆன் ஆயத்',tr:'மொழிபெயர்ப்பு',loc:'இடம்',liveJoin:'நேரடி ஜிக்ர் நடக்கிறது',liveSub:'சேர தட்டவும்',liveActive:'இப்போது',joinedLive:'நேரடி அமர்வில் சேர்ந்தீர்கள்',adminPanel:'நிர்வாக பலகை',startSess:'▶ நேரடி அமர்வு தொடங்கு',endSess:'■ அமர்வு முடி',micOff:'மைக்ரோஃபோன் அணைந்துள்ளது',micOn2:'குரல் நேரடியாக ஒளிபரப்பாகிறது',micOnSub:'உலகெங்கும் உள்ள முரீதீன் கேட்கிறார்கள்',micOffSub:'குரல் தொடங்க தட்டவும்',helperMode:'உதவியாளர் முறை',maghrib:'மஃரிப் ஜிக்ர்',tahajjud:'தஹஜ்ஜுத் ஜிக்ர்'}
-};
+async function toggleMic(){
+  if(access!==ACC.ADMIN)return;
+  if(!micOn){
+    try{
+      await loadAgora();
+      var stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      stream.getTracks().forEach(function(tr){tr.stop();});
+      if(agoraHostClient){try{if(agoraMicTrack){agoraMicTrack.stop();agoraMicTrack.close();agoraMicTrack=null;}await agoraHostClient.leave();}catch(ex){}agoraHostClient=null;}
+      agoraHostClient=AgoraRTC.createClient({mode:'live',codec:'vp8'});
+      await agoraHostClient.setClientRole('host');
+      await agoraHostClient.join(AGORA_APP_ID,AGORA_CHANNEL,null,null);
+      agoraMicTrack=await AgoraRTC.createMicrophoneAudioTrack();
+      await agoraHostClient.publish([agoraMicTrack]);
+      micOn=true;
+      db.ref('/session').update({voice:true});
+    }catch(e){
+      console.warn('Mic error:',e.message);
+      // silent fail — show status in UI only
+      micOn=false;
+    }
+  } else {
+    try{if(agoraMicTrack){agoraMicTrack.stop();agoraMicTrack.close();agoraMicTrack=null;}if(agoraHostClient){await agoraHostClient.leave();agoraHostClient=null;}}catch(e){}
+    micOn=false;
+    db.ref('/session').update({voice:false});
+  }
+  updateMicUI();
+}
+function updateMicUI(){
+  var btn=document.getElementById('mic-btn');
+  var lbl=document.getElementById('mic-label');
+  var sub=document.getElementById('mic-sub');
+  if(!btn)return;
+  btn.className='mic-btn'+(micOn?' on':'');
+  lbl.textContent=micOn?t('micOn2'):t('micOff');
+  sub.textContent=micOn?t('micOnSub'):t('micOffSub');
+}
+
+async function joinAgoraAudience(){
+  try{
+    await loadAgora();
+    if(agoraAudClient){try{await agoraAudClient.leave();}catch(ex){}agoraAudClient=null;}
+    agoraAudClient=AgoraRTC.createClient({mode:'live',codec:'vp8'});
+    await agoraAudClient.setClientRole('audience');
+    await agoraAudClient.join(AGORA_APP_ID,AGORA_CHANNEL,null,null);
+    agoraAudClient.on('user-published',function(user,mediaType){
+      agoraAudClient.subscribe(user,mediaType).then(function(){
+        if(mediaType==='audio')user.audioTrack.play();
+      });
+    });
+  }catch(e){console.log('Audience join silent fail:',e.message);}
+}
+function leaveAgoraAudience(){
+  if(agoraAudClient){agoraAudClient.leave().catch(function(){});agoraAudClient=null;}
+}
+
+/* ════════════════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════════════ */
+var PIN_ADMIN='786786', PIN_HELPER='786787';
+var ACC={NONE:0,HELPER:1,ADMIN:2};
+var SK='zqb_v9', SK_ACC='zqb_acc';
+
+var MAGHRIB_ORDER=['qalb','rooh','sirr','khafi','akhfa','nafs','sultan','ahadiyyat','maiyyat','aqrabiyyat','kabah','fana','baqa','rauza','masjid'];
+var TAHAJJUD_ORDER=['qalb','rooh','sirr','khafi','akhfa','nafs','sultan','ahadiyyat','maiyyat','aqrabiyyat','dawair1','dawair2','dawair3','fana','baqa','abudiyyat','kabah','fana','baqa','rauza','masjid'];
 
 var LD=[
   {id:'qalb',en:'Qalb',ur:'قلب',ta:'கல்ப்',ar:'قلب',lEn:'Left side of chest (heart)',lUr:'سینے کی بائیں جانب',lTa:'நெஞ்சின் இடது பக்கம்',nEn:'Yellow',nUr:'زرد',nTa:'மஞ்சள்',pEn:'Hazrat Adam (AS)',pUr:'حضرت آدم علیہ السلام',pTa:'ஹஜ்ரத் ஆதம் (அ.ஸ)',hEn:'1st Heaven',hUr:'پہلا آسمان',hTa:'1வது வானம்',col:'#D4A017',part:'ruh',dm:5},
@@ -455,46 +566,31 @@ var LD=[
   {id:'nafs',en:'Nafs',ur:'نفس',ta:'நஃப்ஸ்',ar:'نفس',lEn:'Forehead — Sajdah point',lUr:'پیشانی، سجدہ کی جگہ',lTa:'நெற்றி, சஜ்தா புள்ளி',nEn:'Divine Light',nUr:'نورِ الٰہی',nTa:'இறை நூர்',pEn:'Direct Divine Lights',pUr:'براہِ راست انوارِ الٰہی',pTa:'நேரடி இறை நூர்',hEn:'—',hUr:'—',hTa:'—',col:'#9040a0',part:'body',dm:5},
   {id:'sultan',en:'Sultan al-Azkaar',ur:'سلطان الاذکار',ta:'சுல்தான் அல்-அஸ்கார்',ar:'سلطان الاذکار',lEn:'Entire body becomes Zakir',lUr:'پورا جسم ذاکر بن جاتا ہے',lTa:'முழு உடலும் ஜாகிர் ஆகிறது',nEn:'Colourless',nUr:'بے رنگ',nTa:'நிறமற்றது',pEn:'Direct Divine Lights',pUr:'براہِ راست انوارِ الٰہی',pTa:'நேரடி இறை நூர்',hEn:'—',hUr:'—',hTa:'—',col:'#6080a0',part:'body',dm:5},
 ];
-
 var MD=[
   {id:'rabitah',en:'Rabitah',ur:'رابطہ',ta:'ராபிதா',ar:'رابطہ',gr:'sal',dm:5,col:'#185FA5',dEn:'Spiritual connection with the Shaikh',dUr:'شیخِ سلسلہ سے روحانی تعلق',dTa:'சில்சிலாவின் ஷேய்க்குடன் தொடர்பு',ayat:null},
-  {id:'ahadiyyat',en:'Maraqbah Ahadiyyat',ur:'مراقبہ احدیت',ta:'அஹதிய்யத்',ar:'احدیت',gr:'sal',dm:7,col:'#4a90d9',dEn:'Station of Divine Unity — white lights',dUr:'توحیدِ الٰہی — سفید انوار',dTa:'தெய்வீக ஒற்றுமை — வெள்ளை நூர்',ayat:{arabic:'وَإِلَٰهُكُمْ إِلَٰهٌ وَاحِدٌ ۖ لَّا إِلَٰهَ إِلَّا هُوَ الرَّحْمَٰنُ الرَّحِيمُ',ref:'Al-Baqarah 2:163',tEn:'And your god is one God; there is no deity except Him, the Entirely Merciful, the Especially Merciful.',tUr:'اور تمہارا معبود ایک ہی معبود ہے، اس کے سوا کوئی معبود نہیں، بڑا مہربان، نہایت رحم والا۔',tTa:'உங்கள் இறைவன் ஒரே இறைவன்; அவனைத் தவிர வேறு இறைவன் இல்லை.'}},
-  {id:'maiyyat',en:'Maraqbah Maiyyat',ur:'مراقبہ معیت',ta:'மஃய்யத்',ar:'معیت',gr:'sal',dm:7,col:'#1D9E75',dEn:'Divine Companionship — green lights',dUr:'معیتِ الٰہی — سبز انوار',dTa:'இறை தோழமை — பச்சை நூர்',ayat:{arabic:'وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ ۚ وَاللَّهُ بِمَا تَعْمَلُونَ بَصِيرٌ',ref:'Al-Hadid 57:4',tEn:'And He is with you wherever you are. And Allah, of what you do, is Seeing.',tUr:'اور وہ تمہارے ساتھ ہے جہاں بھی تم ہو، اور جو کچھ تم کرتے ہو اللہ اسے دیکھ رہا ہے۔',tTa:'நீங்கள் எங்கிருந்தாலும் அவன் உங்களுடன் இருக்கிறான்.'}},
+  {id:'ahadiyyat',en:'Maraqbah Ahadiyyat',ur:'مراقبہ احدیت',ta:'அஹதிய்யத்',ar:'احدیت',gr:'sal',dm:7,col:'#4a90d9',dEn:'Station of Divine Unity — white lights',dUr:'توحیدِ الٰہی — سفید انوار',dTa:'தெய்வீக ஒற்றுமை — வெள்ளை நூர்',ayat:{arabic:'وَإِلَٰهُكُمْ إِلَٰهٌ وَاحِدٌ ۖ لَّا إِلَٰهَ إِلَّا هُوَ الرَّحْمَٰنُ الرَّحِيمُ',ref:'Al-Baqarah 2:163',tEn:'And your god is one God; there is no deity except Him, the Entirely Merciful, the Especially Merciful.',tUr:'اور تمہارا معبود ایک ہی معبود ہے۔',tTa:'உங்கள் இறைவன் ஒரே இறைவன்.'}},
+  {id:'maiyyat',en:'Maraqbah Maiyyat',ur:'مراقبہ معیت',ta:'மஃய்யத்',ar:'معیت',gr:'sal',dm:7,col:'#1D9E75',dEn:'Divine Companionship — green lights',dUr:'معیتِ الٰہی — سبز انوار',dTa:'இறை தோழமை — பச்சை நூர்',ayat:{arabic:'وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ',ref:'Al-Hadid 57:4',tEn:'And He is with you wherever you are.',tUr:'اور وہ تمہارے ساتھ ہے جہاں بھی تم ہو۔',tTa:'நீங்கள் எங்கிருந்தாலும் அவன் உங்களுடன் இருக்கிறான்.'}},
   {id:'aqrabiyyat',en:'Maraqbah Aqrabiyyat',ur:'مراقبہ اقربیت',ta:'அக்ரபிய்யத்',ar:'اقربیت',gr:'sal',dm:7,col:'#C85030',dEn:'Divine Nearness — red lights',dUr:'قربتِ الٰہی — سرخ انوار',dTa:'இறை நெருக்கம் — சிவப்பு நூர்',ayat:{arabic:'وَنَحْنُ أَقْرَبُ إِلَيْهِ مِنْ حَبْلِ الْوَرِيدِ',ref:'Qaf 50:16',tEn:'And We are closer to him than his jugular vein.',tUr:'اور ہم اس کی شہ رگ سے بھی زیادہ قریب ہیں۔',tTa:'நாம் அவனது கழுத்து நரம்பை விட அவனுக்கு நெருங்கியவர்கள்.'}},
   {id:'dawair1',en:'Dairah-e Muhabbat Awwal',ur:'دائرہ محبت اول',ta:'முஹப்பத் 1',ar:'دائرہ محبت اول',gr:'daw',dm:5,col:'#854F0B',dEn:'First Circle of Love',dUr:'پہلا دائرہ محبت',dTa:'முதல் அன்பு வட்டம்',ayat:null},
   {id:'dawair2',en:'Dairah-e Muhabbat Doam',ur:'دائرہ محبت دوم',ta:'முஹப்பத் 2',ar:'دائرہ محبت دوم',gr:'daw',dm:5,col:'#9a5e10',dEn:'Second Circle of Love',dUr:'دوسرا دائرہ محبت',dTa:'இரண்டாம் அன்பு வட்டம்',ayat:null},
-  {id:'dawair3',en:'Dairah-e Muhabbat Soam',ur:'دائرہ محبت سوم',ta:'முஹப்பத் 3',ar:'دائرہ محبت سوم',gr:'daw',dm:5,col:'#b07015',dEn:'Third Circle of Love',dUr:'تیسرا دائرہ محبت',dTa:'மூன்றாம் அன்பு வட்டம்',ayat:null},
+  {id:'dawair3',en:'Dairah-e Muhabbat Soam',ur:'دائرہ محبت سوم',ta:'முஹப்பத் 3',ar:'دائرہ محبت سوம',gr:'daw',dm:5,col:'#b07015',dEn:'Third Circle of Love',dUr:'تیسرا دائرہ محبت',dTa:'மூன்றாம் அன்பு வட்டம்',ayat:null},
   {id:'ismzahir',en:'Ism-e Zahir wal Batin',ur:'اسم ظاہر و باطن',ta:'ஜாஹிர் வல் பாதின்',ar:'اسم ظاہر و باطن',gr:'fur',dm:7,col:'#7c6af7',dEn:'The Manifest and Hidden Name of Allah',dUr:'اللہ کا ظاہر اور باطن نام',dTa:'வெளிப்படையான மறைந்த பெயர்',ayat:null},
-  {id:'abudiyyat',en:'Maraqbah Abudiyyat',ur:'مراقبہ عبودیت',ta:'அபூதிய்யத்',ar:'عبودیت',gr:'fur',dm:7,col:'#993556',dEn:'Servitude — stars and trees in prostration',dUr:'عبودیت — ستارے اور درخت سجدہ میں',dTa:'அடிமைத்தனம் — நட்சத்திரங்களும் மரங்களும் சஜ்தா',ayat:{arabic:'وَالنَّجْمُ وَالشَّجَرُ يَسْجُدَانِ',ref:'Ar-Rahman 55:6',tEn:'And the stars and trees prostrate.',tUr:'اور ستارے اور درخت سجدہ کرتے ہیں۔',tTa:'நட்சத்திரங்களும் மரங்களும் சஜ்தா செய்கின்றன.'}},
+  {id:'abudiyyat',en:'Maraqbah Abudiyyat',ur:'مراقبہ عبودیت',ta:'அபூதிய்யத்',ar:'عبودیت',gr:'fur',dm:7,col:'#993556',dEn:'Servitude — stars and trees in prostration',dUr:'عبودیت — ستارے اور درخت سجدہ میں',dTa:'அடிமைத்தனம்',ayat:{arabic:'وَالنَّجْمُ وَالشَّجَرُ يَسْجُدَانِ',ref:'Ar-Rahman 55:6',tEn:'And the stars and trees prostrate.',tUr:'اور ستارے اور درخت سجدہ کرتے ہیں۔',tTa:'நட்சத்திரங்களும் மரங்களும் சஜ்தா செய்கின்றன.'}},
   {id:'fana',en:'Maraqbah Fana Fillah',ur:'مراقبہ فنا فی اللہ',ta:'ஃபனா ஃபில்லா',ar:'فنا فی اللہ',gr:'adv',dm:7,col:'#8B2020',dEn:'Annihilation in Allah',dUr:'فنا فی اللہ',dTa:'அல்லாஹ்வில் அழிதல்',ayat:{arabic:'كُلُّ مَنْ عَلَيْهَا فَانٍ',ref:'Ar-Rahman 55:26',tEn:'Everyone upon the earth will perish.',tUr:'جو کچھ زمین پر ہے سب فانی ہے۔',tTa:'பூமியிலுள்ள எல்லாவற்றும் அழிந்துபோகும்.'}},
-  {id:'baqa',en:'Maraqbah Baqa Billah',ur:'مراقبہ بقا باللہ',ta:'பகா பில்லா',ar:'بقا باللہ',gr:'adv',dm:7,col:'#1a6e4a',dEn:'Subsistence in Allah',dUr:'بقا باللہ',dTa:'அல்லாஹ்வில் நிலைத்தல்',ayat:{arabic:'وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو الْجَلَالِ وَالْإِكْرَامِ',ref:'Ar-Rahman 55:27',tEn:'And there will remain the Face of your Lord, Owner of Majesty and Honor.',tUr:'اور تیرے رب کی ذات باقی رہے گی جو عظمت اور عزت والا ہے۔',tTa:'மாட்சியும் கண்ணியமும் உடைய உன் இறைவனின் முகம் நிலைத்திருக்கும்.'}},
-  {id:'kabah',en:'Maraqbah Sair-e Kabah',ur:'مراقبہ سیر کعبہ',ta:'சைர்-இ-கஃபா',ar:'سیر کعبہ',gr:'adv',dm:7,col:'#C8A020',dEn:'Rooh stands before Bait Allah reciting Talbihaat',dUr:'بیت اللہ کے سامنے روح کا قیام اور تلبیات',dTa:'பைத்துல்லா முன் ரூஹின் நிலை மற்றும் தல்பியா',ayat:null},
-  {id:'rauza',en:'Maraqbah Rauza-e Athar',ur:'مراقبہ روضہ اطہر',ta:'ரவுளா-இ-அதர்',ar:'روضہ اطہر',gr:'adv',dm:7,col:'#2a6090',dEn:'Presence at the blessed resting place of Holy Prophet (SAW)',dUr:'حضور نبی کریم ﷺ کی بارگاہ میں روح کی حاضری',dTa:'நபி (ஸல்) அவர்களின் புனித தர்பாரில் ரூஹின் ஹாஜிரி',ayat:null},
-  {id:'masjid',en:'Maraqbah Masjid-e Nabvi',ur:'مراقبہ مسجدِ نبوی',ta:'மஸ்ஜித்-இ-நபவீ',ar:'مسجدِ نبوی',gr:'adv',dm:7,col:'#3a7060',dEn:"Rooh enters Masjid-e Nabvi, recites Darood; Roohani Bai'at before Holy Prophet (SAW)",dUr:'مسجدِ نبوی میں روح کا داخلہ، درود، روحانی بیعت حضور ﷺ',dTa:'மஸ்ஜித்-இ-நபவீவில் ரூஹின் பிரவேசம், தரூத், ரூஹானி பைஆத்',ayat:null},
+  {id:'baqa',en:'Maraqbah Baqa Billah',ur:'مراقبہ بقا باللہ',ta:'பகா பில்லா',ar:'بقا باللہ',gr:'adv',dm:7,col:'#1a6e4a',dEn:'Subsistence in Allah',dUr:'بقا باللہ',dTa:'அல்லாஹ்வில் நிலைத்தல்',ayat:{arabic:'وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو الْجَلَالِ وَالْإِكْرَامِ',ref:'Ar-Rahman 55:27',tEn:'And there will remain the Face of your Lord, Owner of Majesty and Honor.',tUr:'اور تیرے رب کی ذات باقی رہے گی۔',tTa:'உன் இறைவனின் முகம் நிலைத்திருக்கும்.'}},
+  {id:'kabah',en:'Maraqbah Sair-e Kabah',ur:'مراقبہ سیر کعبہ',ta:'சைர்-இ-கஃபா',ar:'سیر کعبہ',gr:'adv',dm:7,col:'#C8A020',dEn:'Rooh stands before Bait Allah reciting Talbihaat',dUr:'بیت اللہ کے سامنے روح کا قیام اور تلبیات',dTa:'பைத்துல்லா முன் ரூஹின் நிலை',ayat:null},
+  {id:'rauza',en:'Maraqbah Rauza-e Athar',ur:'مراقبہ روضہ اطہر',ta:'ரவுளா-இ-அதர்',ar:'روضہ اطہر',gr:'adv',dm:7,col:'#2a6090',dEn:'Presence at the blessed resting place of Holy Prophet (SAW)',dUr:'حضور نبی کریم ﷺ کی بارگاہ میں روح کی حاضری',dTa:'நபி (ஸல்) அவர்களின் தர்பாரில் ஹாஜிரி',ayat:null},
+  {id:'masjid',en:'Maraqbah Masjid-e Nabvi',ur:'مراقبہ مسجدِ نبوی',ta:'மஸ்ஜித்-இ-நபவீ',ar:'مسجدِ نبوی',gr:'adv',dm:7,col:'#3a7060',dEn:"Rooh enters Masjid-e Nabvi, recites Darood; Roohani Bai'at",dUr:'مسجدِ نبوی میں روح کا داخلہ، درود، روحانی بیعت',dTa:'மஸ்ஜித்-இ-நபவீவில் ரூஹின் பிரவேசம்',ayat:null},
 ];
 
-/* Session orders */
-var MAGHRIB_ORDER=['qalb','rooh','sirr','khafi','akhfa','nafs','sultan','ahadiyyat','maiyyat','aqrabiyyat','kabah','fana','baqa','rauza','masjid'];
-var TAHAJJUD_ORDER=['qalb','rooh','sirr','khafi','akhfa','nafs','sultan','ahadiyyat','maiyyat','aqrabiyyat','dawair1','dawair2','dawair3','fana','baqa','abudiyyat','kabah','fana','baqa','rauza','masjid'];
-
-/* Build LA and MA without spread+getter pattern (broken in older Android WebView) */
-var LA=LD.map(function(l){
-  var o=Object.create(null);
-  Object.keys(l).forEach(function(k){o[k]=l[k];});
-  Object.defineProperty(o,'enabled',{get:function(){return gE(l.id);},set:function(v){sE(l.id,v);},enumerable:true});
-  Object.defineProperty(o,'mins',{get:function(){return gMin(l.id,l.dm);},set:function(v){sMin(l.id,v);},enumerable:true});
-  return o;
-});
-var MA=MD.map(function(m){
-  var o=Object.create(null);
-  Object.keys(m).forEach(function(k){o[k]=m[k];});
-  Object.defineProperty(o,'enabled',{get:function(){return gE(m.id);},set:function(v){sE(m.id,v);},enumerable:true});
-  Object.defineProperty(o,'mins',{get:function(){return gMin(m.id,m.dm);},set:function(v){sMin(m.id,v);},enumerable:true});
-  return o;
-});
-
-var SI=[],ci=0,sleft=0,ts=0,TI=null,run=false,startAt=0,pausedAt=0;
-
+/* ════════════════════════════════════════════════
+   TRANSLATIONS
+═══════════════════════════════════════════════ */
+var TR={
+  en:{title:'Zikr-e-Qalbi',sub:'Silsila Naqshbandia Owaisia',lataif:'Lataif',muraqbat:'Muraqbat',syncL:'Same time for all lataif',syncM:'Same time for all muraqbat',ruh:'5 Lataif of Ruh',body:'2 Lataif of Body',sal:'Maraqbaat-e Salasah',daw:'Dawair-e Muhabbat',fur:'Further Maraqbaat',adv:'Advanced Maraqbaat',total:'Total',ends:'Ends',begin:'Begin Session',on:'on',off:'off',pause:'Pause',resume:'Resume',skip:'Skip',end:'End',newS:'New Session',elapsed:'elapsed',finH:'Session Complete',finP:'May Allah accept your worship\nand illuminate your heart.',finQ1:'ایں آں نعمت است کہ حسرت برد بر ایں\nجویان تخت قیصر و ملک سکندری',finQ2:"Those who covet Caesar's throne or Alexander's kingdom\nIn tears of regret would soon drown",ll:'Lataif',ml:'Muraqbat',lc:'Light Colour',fp2:'Faiz of Prophet',hv:'Heaven',desc:'Description',ay:'Quranic Ayah',tr:'Translation',loc:'Location',micOff:'Microphone Off',micOn2:'Broadcasting Live',micOnSub:'Murideen can hear you',micOffSub:'Tap to start broadcasting'},
+  ur:{title:'ذکرِ قلبی',sub:'سلسلہ نقشبندیہ اویسیہ',lataif:'لطائف',muraqbat:'مراقبات',syncL:'تمام لطائف کا وقت یکساں',syncM:'تمام مراقبات کا وقت یکساں',ruh:'روح کے پانچ لطائف',body:'جسم کے دو لطائف',sal:'مراقباتِ ثلاثہ',daw:'دوائرِ محبت',fur:'مزید مراقبات',adv:'اعلیٰ مراقبات',total:'کل',ends:'ختم',begin:'سیشن شروع کریں',on:'فعال',off:'بند',pause:'روکیں',resume:'جاری',skip:'چھوڑیں',end:'ختم',newS:'نیا سیشن',elapsed:'گزرا',finH:'سیشن مکمل',finP:'اللہ آپ کی عبادت قبول فرمائے\nاور آپ کے دل کو منور کرے۔',finQ1:'ایں آں نعمت است کہ حسرت برد بر ایں\nجویان تخت قیصر و ملک سکندری',finQ2:"Those who covet Caesar's throne — in tears of regret",ll:'لطائف',ml:'مراقبات',lc:'نور کا رنگ',fp2:'نبی کا فیض',hv:'آسمان',desc:'تفصیل',ay:'قرآنی آیت',tr:'ترجمہ',loc:'مقام',micOff:'مائیکروفون بند',micOn2:'آواز براڈکاسٹ ہو رہی ہے',micOnSub:'مریدین سن رہے ہیں',micOffSub:'آواز شروع کرنے کیلئے ٹیپ کریں'},
+  ta:{title:'ஜிக்ர்-இ-கல்பி',sub:'சில்சிலா நக்ஷ்பந்தியா ஓவைசியா',lataif:'லதாயிஃப்',muraqbat:'முராக்பாத்',syncL:'அனைத்துக்கும் ஒரே நேரம்',syncM:'அனைத்துக்கும் ஒரே நேரம்',ruh:'ரூஹின் 5 லதாயிஃப்',body:'உடலின் 2 லதாயிஃப்',sal:'முராக்பாத்-இ-சலாசா',daw:'தவாயிர்-இ-முஹப்பத்',fur:'மேலும் முராக்பாத்',adv:'உயர் முராக்பாத்',total:'மொத்தம்',ends:'முடியும்',begin:'அமர்வு தொடங்கு',on:'இயக்கு',off:'நிறுத்து',pause:'இடைநிறுத்து',resume:'தொடர்',skip:'தவிர்',end:'முடி',newS:'புதிய அமர்வு',elapsed:'கடந்தது',finH:'அமர்வு நிறைவு',finP:'அல்லாஹ் உங்கள் வணக்கத்தை ஏற்றுக்கொள்ளட்டும்.',finQ1:'ایں آں نعمت است کہ حسرت برد بر ایں',finQ2:'Those who covet Caesar throne',ll:'லதாயிஃப்',ml:'முராக்பாத்',lc:'நூரின் நிறம்',fp2:'நபியின் ஃபைழ்',hv:'வானம்',desc:'விளக்கம்',ay:'குர்ஆன் ஆயத்',tr:'மொழிபெயர்ப்பு',loc:'இடம்',micOff:'மைக்ரோஃபோன் அணைந்துள்ளது',micOn2:'குரல் ஒளிபரப்பாகிறது',micOnSub:'முரீதீன் கேட்கிறார்கள்',micOffSub:'குரல் தொடங்க தட்டவும்'}
+};
 function t(k){return TR[lang][k]||TR.en[k]||k;}
 function gN(i){return lang==='ur'?i.ur:lang==='ta'?i.ta:i.en;}
 function gL(i){return lang==='ur'?i.lUr:lang==='ta'?i.lTa:i.lEn;}
@@ -503,265 +599,340 @@ function gNL(i){return lang==='ur'?i.nUr:lang==='ta'?i.nTa:i.nEn;}
 function gP(i){return lang==='ur'?i.pUr:lang==='ta'?i.pTa:i.pEn;}
 function gH(i){return lang==='ur'?i.hUr:lang==='ta'?i.hTa:i.hEn;}
 function gTr(a){return lang==='ur'?a.tUr:lang==='ta'?a.tTa:a.tEn;}
-
 function findItem(id){return LD.find(function(x){return x.id===id;})||MD.find(function(x){return x.id===id;});}
 
-/* ── WAKE LOCK ── */
-var wl=null;
-async function reqWL(){try{if('wakeLock' in navigator){wl=await navigator.wakeLock.request('screen');}}catch(e){}}
-function relWL(){try{if(wl){wl.release();wl=null;}}catch(e){}}
-document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='visible'&&run){
-    reqWL();
-    if(startAt>0){var el=Math.floor((Date.now()-startAt)/1000);sleft=Math.max(0,ts-el);uTD();if(sleft<=0){clearInterval(TI);ting();setTimeout(function(){bI(ci+1);},1400);}}
-  }
-});
+/* ════════════════════════════════════════════════
+   STATE & STORAGE
+═══════════════════════════════════════════════ */
+function ldSt(){try{var r=localStorage.getItem(SK);if(r)return JSON.parse(r);}catch(e){}return{};}
+function svSt(){try{localStorage.setItem(SK,JSON.stringify(st));}catch(e){}}
+var st=ldSt(), lang=st.lang||'en';
+/* Init defaults once */
+if(!st._v9){LD.forEach(function(l){st[l.id+'_e']=true;});MD.forEach(function(m){st[m.id+'_e']=false;});st._v9=true;svSt();}
 
-/* ── AUDIO ── */
+function gE(id){return st[id+'_e']===true;}
+function sE(id,v){st[id+'_e']=!!v;svSt();}
+function gMin(id,def){return typeof st[id+'_m']==='number'?st[id+'_m']:def;}
+function sMin(id,v){st[id+'_m']=v;svSt();}
+
+/* Access level — memory only, NOT persisted.
+   sessionStorage is inherited by new tabs opened via Ctrl+T,
+   which would make the user tab accidentally get admin access
+   and hide the Join banner. In-memory is safest. */
+var access=ACC.NONE;
+function ldAcc(){return ACC.NONE;} /* always start fresh */
+function svAcc(l){} /* no-op */
+function clrAcc(){} /* no-op */
+
+/* UID for presence */
+var myUID=(function(){var k='zqb_uid';try{var v=localStorage.getItem(k);if(v)return v;v='u'+Date.now()+'_'+Math.random().toString(36).slice(2,7);localStorage.setItem(k,v);return v;}catch(e){return 'u'+Date.now();}})();
+
+/* LA / MA proxy arrays */
+var LA=LD.map(function(l){var o=Object.create(null);Object.keys(l).forEach(function(k){o[k]=l[k];});Object.defineProperty(o,'enabled',{get:function(){return gE(l.id);},enumerable:true});Object.defineProperty(o,'mins',{get:function(){return gMin(l.id,l.dm);},enumerable:true});return o;});
+var MA=MD.map(function(m){var o=Object.create(null);Object.keys(m).forEach(function(k){o[k]=m[k];});Object.defineProperty(o,'enabled',{get:function(){return gE(m.id);},enumerable:true});Object.defineProperty(o,'mins',{get:function(){return gMin(m.id,m.dm);},enumerable:true});return o;});
+
+/* Live session state (updated from Firebase) */
+var LS={active:false,current:null,type:'maghrib',startedAt:null,voice:false};
+var joinedLive=false;
+var sessionType='maghrib';
+/* Duration timer */
+var durTimer=null, durStart=0;
+function startDurTimer(fromMs){durStart=fromMs||Date.now();stopDurTimer();durTimer=setInterval(function(){var s=Math.floor((Date.now()-durStart)/1000);var h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;var str=(h>0?pad(h)+':':'')+pad(m)+':'+pad(sec);var el1=document.getElementById('la-dur');if(el1)el1.textContent=str;var el2=document.getElementById('als-dur');if(el2)el2.textContent=str;},1000);}
+function stopDurTimer(){if(durTimer){clearInterval(durTimer);durTimer=null;}}
+function pad(n){return String(n).padStart(2,'0');}
+
+/* Personal session */
+var SI=[],ci=0,sleft=0,ts=0,TI=null,run=false,startAt=0,pausedAt=0;
+
+/* ════════════════════════════════════════════════
+   WAKE LOCK + AUDIO
+═══════════════════════════════════════════════ */
+var wl=null;
+async function reqWL(){try{if('wakeLock' in navigator)wl=await navigator.wakeLock.request('screen');}catch(e){}}
+function relWL(){try{if(wl){wl.release();wl=null;}}catch(e){}}
 var _ac=null;
-function gAC(){if(!_ac)try{_ac=new(window.AudioContext||window.webkitAudioContext)()}catch(e){}if(_ac&&_ac.state==='suspended')try{_ac.resume()}catch(e){}return _ac;}
+function gAC(){if(!_ac)try{_ac=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}if(_ac&&_ac.state==='suspended')try{_ac.resume();}catch(e){}return _ac;}
 document.addEventListener('touchstart',function(){gAC();},{passive:true});
 document.addEventListener('click',function(){gAC();},{passive:true});
 function ting(){
-  try{
-    var ctx=gAC();if(!ctx)return;var now=ctx.currentTime;
-    [[880,0.7],[1760,0.5],[2640,0.3],[3520,0.15]].forEach(function(pair){
-      var freq=pair[0],vol=pair[1];
-      var o=ctx.createOscillator(),g=ctx.createGain();
-      o.connect(g);g.connect(ctx.destination);
-      o.type='sine';o.frequency.value=freq;
-      g.gain.setValueAtTime(0,now);
-      g.gain.linearRampToValueAtTime(vol,now+0.003);
-      g.gain.exponentialRampToValueAtTime(0.001,now+3.0);
-      o.start(now);o.stop(now+3.1);
-    });
-  }catch(e){}
+  try{var ctx=gAC();if(!ctx)return;var now=ctx.currentTime;
+  [[880,0.7],[1760,0.5],[2640,0.3],[3520,0.15]].forEach(function(p){
+    var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);
+    o.type='sine';o.frequency.value=p[0];g.gain.setValueAtTime(0,now);
+    g.gain.linearRampToValueAtTime(p[1],now+0.003);g.gain.exponentialRampToValueAtTime(0.001,now+3);
+    o.start(now);o.stop(now+3.1);
+  });}catch(e){}
 }
 function tingEnd(){ting();setTimeout(ting,1100);setTimeout(ting,2200);}
 
-/* ── PIN LOGIC ── */
+/* ════════════════════════════════════════════════
+   PRESENCE (/presence/ — separate from /session)
+═══════════════════════════════════════════════ */
+var presenceRegistered=false;
+function registerPresence(){
+  if(presenceRegistered)return;
+  presenceRegistered=true;
+  db.ref('/presence/'+myUID).set(true);
+  window.addEventListener('beforeunload',function(){
+    fetch(FB+'/presence/'+myUID+'.json',{method:'DELETE'}).catch(function(){});
+  });
+}
+function unregisterPresence(){
+  presenceRegistered=false;
+  fetch(FB+'/presence/'+myUID+'.json',{method:'DELETE'}).catch(function(){});
+}
+
+/* ════════════════════════════════════════════════
+   PIN / ACCESS
+═══════════════════════════════════════════════ */
 function handleAdminBtn(){
-  if(access>=ACC.HELPER){
-    // already admin/helper — toggle panel
-    var p=document.getElementById('admin-panel');
-    var pp=document.getElementById('personal-panel');
-    if(p.style.display==='none'){p.style.display='block';pp.style.display='none';}
-    else{p.style.display='none';pp.style.display='block';}
-    return;
-  }
-  pinPurpose='any';
-  document.getElementById('pin-title').textContent='Enter Access PIN';
-  document.getElementById('pin-sub').textContent='Admin PIN or Helper PIN';
-  document.getElementById('pin-error').style.display='none';
-  document.getElementById('pin-input').value='';
-  document.getElementById('pin-overlay').style.display='flex';
-  setTimeout(function(){document.getElementById('pin-input').focus();},100);
+  if(access>=ACC.HELPER){toggleAdminPanel();return;}
+  document.getElementById('pin-err').style.display='none';
+  document.getElementById('pin-inp').value='';
+  document.getElementById('pin-ov').style.display='flex';
+  setTimeout(function(){document.getElementById('pin-inp').focus();},100);
 }
-
 function checkPin(){
-  var val=document.getElementById('pin-input').value.trim();
-  if(val===PIN_ADMIN){
-    access=ACC.ADMIN;
-    document.getElementById('pin-overlay').style.display='none';
-    document.getElementById('admin-toggle-btn').textContent='Admin ✓';
-    document.getElementById('admin-toggle-btn').classList.add('active');
-    document.getElementById('mic-row').style.display='flex';
-    showAdminPanel();
-  } else if(val===PIN_HELPER){
-    access=ACC.HELPER;
-    document.getElementById('pin-overlay').style.display='none';
-    document.getElementById('admin-toggle-btn').textContent='Helper ✓';
-    document.getElementById('admin-toggle-btn').classList.add('active');
-    document.getElementById('mic-row').style.display='none';
-    showAdminPanel();
-  } else {
-    document.getElementById('pin-error').style.display='block';
-    document.getElementById('pin-input').value='';
-  }
+  var v=document.getElementById('pin-inp').value.trim();
+  if(v===PIN_ADMIN){access=ACC.ADMIN;svAcc(ACC.ADMIN);finishLogin('Admin ✓',true);}
+  else if(v===PIN_HELPER){access=ACC.HELPER;svAcc(ACC.HELPER);finishLogin('Helper ✓',false);}
+  else{document.getElementById('pin-err').style.display='block';document.getElementById('pin-inp').value='';}
 }
-document.getElementById('pin-input').addEventListener('keydown',function(e){if(e.key==='Enter')checkPin();});
-function cancelPin(){document.getElementById('pin-overlay').style.display='none';}
-
+document.getElementById('pin-inp').addEventListener('keydown',function(e){if(e.key==='Enter')checkPin();});
+function cancelPin(){document.getElementById('pin-ov').style.display='none';}
+function finishLogin(label,isAdmin){
+  document.getElementById('pin-ov').style.display='none';
+  document.getElementById('admin-btn').textContent=label;
+  document.getElementById('admin-btn').classList.add('active');
+  if(isAdmin)document.getElementById('mic-row').style.display='flex';
+  showAdminPanel();
+}
+function doLogout(){
+  access=ACC.NONE;clrAcc();
+  if(micOn)toggleMic();
+  document.getElementById('admin-btn').textContent='Admin';
+  document.getElementById('admin-btn').classList.remove('active');
+  document.getElementById('admin-panel').style.display='none';
+  document.getElementById('personal-panel').style.display='block';
+}
+function toggleAdminPanel(){
+  var ap=document.getElementById('admin-panel');
+  var pp=document.getElementById('personal-panel');
+  if(ap.style.display==='none'){ap.style.display='block';pp.style.display='none';}
+  else{ap.style.display='none';pp.style.display='block';}
+}
 function showAdminPanel(){
   document.getElementById('admin-panel').style.display='block';
   document.getElementById('personal-panel').style.display='none';
   renderAdminGrid();
-  updateAdminUI();
+  syncAdminUI();
 }
 
-/* ── ADMIN: SESSION CONTROL ── */
+/* ════════════════════════════════════════════════
+   ADMIN CONTROLS
+═══════════════════════════════════════════════ */
 function setSessionType(type){
   sessionType=type;
-  document.getElementById('stype-maghrib').classList.toggle('selected',type==='maghrib');
-  document.getElementById('stype-tahajjud').classList.toggle('selected',type==='tahajjud');
+  document.getElementById('stype-mag').classList.toggle('selected',type==='maghrib');
+  document.getElementById('stype-tah').classList.toggle('selected',type==='tahajjud');
   renderAdminGrid();
 }
 
-function adminStartSession(){
-  db.ref('/session').set({active:true,current:null,type:sessionType,startedAt:Date.now()});
-  startDurTimer();
-  document.getElementById('live-dur-admin').style.display='block';
+function adminStart(){
+  var now=Date.now();
+  var firstId='qalb'; /* Always start from Qalb */
+  LS.active=true;LS.current=firstId;LS.startedAt=now;LS.type=sessionType;
+  db.ref('/session').update({active:true,current:firstId,type:sessionType,startedAt:now,voice:false});
+  durStart=now;
+  startDurTimer(now);
+  syncAdminUI();
+  /* Highlight Qalb immediately */
+  highlightGridItem(firstId);
+  highlightRowItem(firstId);
+  updateAdminStrip(firstId);
 }
 
-function adminEndSession(){
-  db.ref('/session').set({active:false,current:null,type:sessionType,startedAt:null});
+function adminEnd(){
+  LS.active=false;LS.current=null;
+  db.ref('/session').update({active:false,current:null,startedAt:null,voice:false});
+  db.ref('/presence').set(null);
   stopDurTimer();
-  document.getElementById('live-dur-admin').style.display='none';
-  document.getElementById('live-dur-admin').textContent='';
   if(micOn)toggleMic();
+  /* Reset current latifa display */
+  clearCurrentLatifahDisplay();
+  syncAdminUI();
 }
 
 function adminAnnounce(id){
-  if(!liveSession.active)return;
+  if(!LS.active)return;
+  LS.current=id;
+  /* Invalidate dedup cache so Firebase echo is processed */
+  _lastSnap='';
   db.ref('/session').update({current:id,updatedAt:Date.now()});
+  /* Instantly update all visual indicators for admin */
+  highlightGridItem(id);
+  highlightRowItem(id);
+  updateAdminStrip(id);
 }
 
-function updateAdminUI(){
-  var live=liveSession.active;
+function syncAdminUI(){
+  var live=LS.active;
   document.getElementById('ap-status').textContent=live?'🔴 LIVE':'Offline';
   document.getElementById('ap-status').className='ap-status '+(live?'live':'off');
-  document.getElementById('ap-start-btn').style.display=live?'none':'block';
-  document.getElementById('ap-end-btn').style.display=live?'block':'none';
-  document.getElementById('session-type-row').style.display=live?'none':'flex';
-  // highlight current item
-  document.querySelectorAll('.ap-item').forEach(function(el){
-    el.classList.toggle('current',el.dataset.id===liveSession.current);
-  });
+  document.getElementById('ap-start').style.display=live?'none':'block';
+  document.getElementById('ap-end').style.display=live?'block':'none';
+  document.getElementById('stype-row').style.display=live?'none':'flex';
+  document.getElementById('als-wrap').style.display=live?'block':'none';
 }
 
 function renderAdminGrid(){
-  var c=document.getElementById('ap-items-container');c.innerHTML='';
+  var c=document.getElementById('ap-grid-wrap');c.innerHTML='';
   var order=sessionType==='tahajjud'?TAHAJJUD_ORDER:MAGHRIB_ORDER;
-  // deduplicate for display but keep all
-  var seen=new Set();
-  var label=document.createElement('div');label.className='ap-grid-label';
-  label.textContent=sessionType==='tahajjud'?t('tahajjud'):t('maghrib');
-  c.appendChild(label);
+  var lbl=document.createElement('div');lbl.className='ap-grid-label';
+  lbl.textContent=(sessionType==='tahajjud'?'⭐ Tahajjud':'🌙 Maghrib')+' Zikr';
+  c.appendChild(lbl);
   var grid=document.createElement('div');grid.className='ap-grid';
   order.forEach(function(id){
     var item=findItem(id);if(!item)return;
     var btn=document.createElement('div');
-    btn.className='ap-item'+(liveSession.current===id?' current':'');
+    btn.className='ap-item'+(LS.current===id?' cur':'');
     btn.dataset.id=id;
-    btn.innerHTML='<span class="ap-dot" style="background:'+item.col+'"></span>'+
-      '<span class="ap-name">'+gN(item)+'</span>';
+    btn.innerHTML='<span class="ap-dot" style="background:'+item.col+'"></span><span class="ap-name">'+gN(item)+'</span>';
     btn.onclick=function(){adminAnnounce(id);};
     grid.appendChild(btn);
   });
   c.appendChild(grid);
 }
 
-/* ── LIVE DURATION TIMER ── */
-var durTimer=null,sessionStartTime=0;
-function startDurTimer(){
-  sessionStartTime=Date.now();
-  stopDurTimer();
-  durTimer=setInterval(function(){
-    var sec=Math.floor((Date.now()-sessionStartTime)/1000);
-    var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
-    var dur=(h>0?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    var el=document.getElementById('live-dur');if(el)el.textContent='⏱ '+dur;
-    var el2=document.getElementById('live-dur-admin');if(el2&&el2.style.display!=='none')el2.textContent='⏱ '+dur;
-  },1000);
-}
-function stopDurTimer(){if(durTimer){clearInterval(durTimer);durTimer=null;}}
-async function toggleMic(){
-  if(access!==ACC.ADMIN)return;
-  if(!micOn){
-    try{
-      await loadAgora();
-      agoraClient=AgoraRTC.createClient({mode:'live',codec:'vp8'});
-      await agoraClient.setClientRole('host');
-      await agoraClient.join(AGORA_APP_ID,AGORA_CHANNEL,null,null);
-      agoraMicTrack=await AgoraRTC.createMicrophoneAudioTrack();
-      await agoraClient.publish([agoraMicTrack]);
-      micOn=true;
-      db.ref('/session/voice').set(true);
-      updateMicUI();
-    }catch(e){alert('Microphone error: '+e.message);}
-  } else {
-    try{
-      if(agoraMicTrack){agoraMicTrack.stop();agoraMicTrack.close();agoraMicTrack=null;}
-      if(agoraClient){await agoraClient.leave();agoraClient=null;}
-      micOn=false;
-      db.ref('/session/voice').set(false);
-      updateMicUI();
-    }catch(e){}
-  }
-}
-
-function updateMicUI(){
-  var btn=document.getElementById('mic-btn');
-  var lbl=document.getElementById('mic-label');
-  var sub=document.getElementById('mic-sub');
-  btn.className='mic-btn '+(micOn?'on':'off');
-  lbl.textContent=micOn?t('micOn2'):t('micOff');
-  sub.textContent=micOn?t('micOnSub'):t('micOffSub');
-}
-
-function loadAgora(){
-  return new Promise(function(res,rej){
-    if(window.AgoraRTC){res();return;}
-    var s=document.createElement('script');
-    s.src='https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.19.0/AgoraRTC_N.js';
-    s.onload=res;s.onerror=function(){rej(new Error('Agora load failed'));};
-    document.head.appendChild(s);
+function highlightGridItem(id){
+  document.querySelectorAll('.ap-item').forEach(function(el){
+    el.classList.toggle('cur',el.dataset.id===id);
   });
 }
-
-/* ── MUREED: JOIN LIVE ── */
-async function joinLive(){
-  joinedLive=true;
-  document.getElementById('live-banner').classList.remove('on');
-  document.getElementById('live-active').style.display='block';
-  document.getElementById('voice-bar').classList.add('on');
-  document.getElementById('voice-bar-txt').textContent=t('joinedLive');
-  startDurTimer();
-  reqWL();
-  // join agora as audience
-  try{
-    await loadAgora();
-    var client=AgoraRTC.createClient({mode:'live',codec:'vp8'});
-    await client.setClientRole('audience');
-    await client.join(AGORA_APP_ID,AGORA_CHANNEL,null,null);
-    client.on('user-published',function(user,mediaType){
-      client.subscribe(user,mediaType).then(function(){
-        if(mediaType==='audio'){user.audioTrack.play();}
-      });
-    });
-    agoraJoined=true;
-  }catch(e){console.log('Voice join failed:',e);}
-  if(liveSession.current)showLiveItem(liveSession.current);
-}
-
-function updateLiveBanner(){
-  var banner=document.getElementById('live-banner');
-  /* Admin/Helper never see the Join banner — they are conducting */
-  if(access>=ACC.HELPER){banner.classList.remove('on');return;}
-  if(liveSession.active&&!joinedLive){
-    banner.classList.add('on');
-    document.getElementById('live-text').textContent=t('liveJoin');
-    document.getElementById('live-sub').textContent=t('liveSub');
-  } else if(!liveSession.active){
-    banner.classList.remove('on');
-    if(joinedLive){
-      joinedLive=false;
-      document.getElementById('live-active').style.display='none';
-      document.getElementById('voice-bar').classList.remove('on');
-      stopDurTimer();
-      relWL();
+function highlightRowItem(id){
+  document.querySelectorAll('.ir').forEach(function(r){r.classList.remove('live-current');});
+  var row=document.getElementById('row-'+id);
+  if(row){
+    row.classList.add('live-current');
+    /* Only scroll into view when personal panel is visible, not when admin panel is showing */
+    var pp=document.getElementById('personal-panel');
+    if(pp&&pp.style.display!=='none'){
+      row.scrollIntoView({behavior:'smooth',block:'nearest'});
     }
   }
 }
+function clearCurrentLatifahDisplay(){
+  /* Clear row highlights */
+  document.querySelectorAll('.ir').forEach(function(r){r.classList.remove('live-current');});
+  document.querySelectorAll('.ap-item').forEach(function(el){el.classList.remove('cur');});
+  /* Clear admin strip */
+  var strip=document.getElementById('als-cur');
+  if(strip)strip.classList.remove('on');
+  /* Reset duration */
+  var d1=document.getElementById('la-dur');if(d1)d1.textContent='00:00';
+  var d2=document.getElementById('als-dur');if(d2)d2.textContent='00:00';
+}
 
-function showLiveItem(id){
+function updateAdminStrip(id){
+  var item=findItem(id);if(!item)return;
+  var strip=document.getElementById('als-cur');
+  if(!strip)return;
+  strip.classList.add('on');
+  var dot=document.getElementById('als-cur-dot');
+  if(dot)dot.style.background=item.col;
+  var nm=document.getElementById('als-cur-name');
+  if(nm)nm.textContent=getLatifahLabel(id);
+  var ar=document.getElementById('als-cur-ar');
+  if(ar)ar.textContent=item.ar;
+}
+
+function getLatifahLabel(id){
+  var isL=!!LD.find(function(x){return x.id===id;});
+  var item=findItem(id);if(!item)return '';
+  if(isL){
+    var order=LS.type==='tahajjud'?TAHAJJUD_ORDER:MAGHRIB_ORDER;
+    var lOnly=order.filter(function(oid){return !!LD.find(function(x){return x.id===oid;});});
+    var idx=lOnly.indexOf(id);
+    return 'Lataif '+(idx>=0?idx+1+' · ':'')+gN(item);
+  }
+  return 'Muraqbat · '+gN(item);
+}
+
+/* ════════════════════════════════════════════════
+   LIVE JOIN / EXIT (mureed)
+═══════════════════════════════════════════════ */
+function joinLive(){
+  joinedLive=true;
+  registerPresence();
+  /* Hide banner, show live card and exit button */
+  document.getElementById('live-banner').classList.remove('on');
+  document.getElementById('live-active').style.display='block';
+  document.getElementById('exit-btn').style.display='block';
+  /* Hide personal panel tabs/list */
+  setPersonalPanelVisible(false);
+  /* Start duration from server startedAt */
+  if(LS.startedAt)startDurTimer(LS.startedAt);
+  reqWL();
+  /* Show current latifa if already selected */
+  if(LS.current)showLiveCard(LS.current);
+  /* Join Agora audio (silent fail) */
+  joinAgoraAudience();
+}
+
+function exitLive(){
+  joinedLive=false;
+  unregisterPresence();
+  stopDurTimer();
+  relWL();
+  leaveAgoraAudience();
+  /* Hide live card and exit button */
+  document.getElementById('live-active').style.display='none';
+  document.getElementById('exit-btn').style.display='none';
+  document.getElementById('voice-bar').classList.remove('on');
+  /* Restore personal panel */
+  setPersonalPanelVisible(true);
+  /* Show banner again if session still active */
+  if(LS.active){
+    document.getElementById('live-banner').classList.add('on');
+  }
+  /* Keep row highlight if session still active */
+  if(!LS.active){
+    document.querySelectorAll('.ir').forEach(function(r){r.classList.remove('live-current');});
+  }
+}
+
+function setPersonalPanelVisible(v){
+  /* v=true: restore for normal use  v=false: hide while in live session */
+  var pp=document.getElementById('personal-panel');
+  if(!pp)return;
+  /* Hide/show the entire personal panel at once — simplest and most reliable */
+  pp.style.display=v?'block':'none';
+}
+
+/* ════════════════════════════════════════════════
+   LIVE CARD (mureed joined view)
+═══════════════════════════════════════════════ */
+function showLiveCard(id){
   var item=findItem(id);if(!item)return;
   var isL=!!LD.find(function(x){return x.id===id;});
-  document.getElementById('la-label').textContent=t('liveActive');
+  /* Color ring */
+  var ring=document.getElementById('la-ring');
+  ring.style.setProperty('--rc',item.col);
+  ring.style.background=item.col;
+  ring.style.boxShadow='0 0 0 4px '+item.col+'33, 0 0 18px 4px '+item.col+'66';
+  /* Breathing border on card */
+  var card=document.getElementById('live-active');
+  card.style.setProperty('--live-col',item.col+'55');
+  card.classList.add('breathing');
+  /* Type badge */
+  var badge=document.getElementById('la-badge');
+  badge.textContent=getLatifahLabel(id);
+  badge.style.background=item.col+'22';
+  badge.style.color=item.col;
+  badge.style.borderColor=item.col+'66';
+  /* Texts */
   document.getElementById('la-ar').textContent=item.ar;
   document.getElementById('la-nm').textContent=gN(item);
-  var cdot=document.getElementById('la-cdot');
-  cdot.style.background=item.col;cdot.style.color=item.col;cdot.style.boxShadow='0 0 12px '+item.col;
   if(isL){
     document.getElementById('la-det').textContent=gNL(item)+' · '+gP(item);
     document.getElementById('la-ayat').textContent='';
@@ -779,16 +950,124 @@ function showLiveItem(id){
       document.getElementById('la-trans').textContent='';
     }
   }
-  // highlight in personal list if visible
-  document.querySelectorAll('.ir').forEach(function(r){r.classList.remove('live-current');});
-  var row=document.getElementById('row-'+id);
-  if(row){row.classList.add('live-current');row.scrollIntoView({behavior:'smooth',block:'nearest'});}
-  ting();
+  /* Note: ting() intentionally NOT called here.
+     ting is called only by adminAnnounce so it plays
+     once when admin selects a latifa, not on every render. */
 }
 
-/* ── LANG ── */
-function setLang(l){lang=l;st.lang=l;svSt();applyLang();renderAll();if(access>=ACC.HELPER)renderAdminGrid();}
+/* ════════════════════════════════════════════════
+   FIREBASE LISTENER — THE AUTHORITATIVE SOURCE
+   Called on every DB snapshot. Unconditional update.
+   Also does an immediate fetch on load so the banner
+   appears instantly without waiting for SSE connect.
+═══════════════════════════════════════════════ */
+/* Track last-processed snapshot to avoid redundant UI updates on every poll */
+var _lastSnap='';
 
+function processSnapshot(d){
+    /* Deduplicate: skip if snapshot is identical to last one processed
+       (prevents polling loop from causing UI flicker every 3s) */
+    var snapKey=(d.active?'1':'0')+'|'+(d.current||'')+'|'+(d.startedAt||'')+'|'+(d.voice?'1':'0');
+    var isNew=(snapKey!==_lastSnap);
+    _lastSnap=snapKey;
+
+    var prevActive=LS.active;
+    var prevCurrent=LS.current;
+
+    LS.active=d.active===true;
+    LS.current=d.current||null;
+    LS.type=d.type||'maghrib';
+    LS.startedAt=d.startedAt||null;
+    LS.voice=d.voice===true;
+
+    if(!isNew){
+      /* Nothing changed — only refresh banner (cheap, no DOM reflow) */
+      refreshBanner();
+      return;
+    }
+
+    /* ── Timer ── */
+    if(LS.active&&LS.startedAt&&!durTimer){
+      if(joinedLive)startDurTimer(LS.startedAt);
+    }
+    if(!LS.active){
+      stopDurTimer();
+      var d1=document.getElementById('la-dur');if(d1)d1.textContent='00:00';
+      var d2=document.getElementById('als-dur');if(d2)d2.textContent='00:00';
+    }
+
+    /* ── Banner: unconditional ── */
+    refreshBanner();
+
+    /* ── Voice bar ── */
+    if(joinedLive){
+      var vb=document.getElementById('voice-bar');
+      if(LS.voice){vb.classList.add('on');document.getElementById('vb-txt').textContent='Hazrat ji is speaking live';}
+      else vb.classList.remove('on');
+    }
+
+    /* ── Admin UI: only update when active state changed ── */
+    if(access>=ACC.HELPER&&LS.active!==prevActive){
+      syncAdminUI();
+    }
+    /* Grid item highlight: update whenever current changes */
+    if(access>=ACC.HELPER&&LS.current!==prevCurrent){
+      highlightGridItem(LS.current||'');
+      updateAdminStrip(LS.current||'');
+    }
+
+    /* ── Session ended ── */
+    if(!LS.active&&prevActive&&joinedLive){exitLive();return;}
+    if(!LS.active&&prevActive){clearCurrentLatifahDisplay();}
+
+    /* ── Current latifa changed ── */
+    if(LS.current&&LS.active&&LS.current!==prevCurrent){
+      highlightRowItem(LS.current);
+      if(joinedLive)showLiveCard(LS.current);
+    }
+    /* First load with current latifa already set */
+    if(LS.current&&LS.active&&!prevCurrent){
+      highlightRowItem(LS.current);
+      if(joinedLive)showLiveCard(LS.current);
+    }
+}
+
+function initFirebase(){
+  db.ref('/session').on('value',function(snap){
+    var d=snap.val()||{};
+    processSnapshot(d);
+  });
+
+  /* Polling fallback every 3s — ensures banner appears even if SSE is slow */
+  setInterval(function(){
+    fetch(FB+'/session.json')
+      .then(function(r){return r.json();})
+      .then(function(d){if(d)processSnapshot(d);})
+      .catch(function(){});
+  },3000);
+
+  /* Presence count listener */
+  db.ref('/presence').on('value',function(snap){
+    var d=snap.val()||{};
+    var cnt=Object.keys(d).length;
+    var el1=document.getElementById('live-count');if(el1)el1.textContent=cnt>0?cnt+' watching':'';
+    var el2=document.getElementById('als-users');if(el2)el2.textContent=cnt;
+  });
+}
+
+function refreshBanner(){
+  var banner=document.getElementById('live-banner');
+  /* Admin/Helper never see the Join banner */
+  if(access>=ACC.HELPER){banner.classList.remove('on');return;}
+  /* Show banner only when session is active and user has NOT joined */
+  if(LS.active&&!joinedLive)banner.classList.add('on');
+  else banner.classList.remove('on');
+}
+
+/* ════════════════════════════════════════════════
+   LANG
+═══════════════════════════════════════════════ */
+function setLang(l){lang=l;st.lang=l;svSt();applyLang();renderAll();if(access>=ACC.HELPER)renderAdminGrid();}
 function applyLang(){
   var rtl=lang==='ur';document.body.style.direction=rtl?'rtl':'ltr';
   document.getElementById('ht').textContent=t('title');
@@ -807,7 +1086,6 @@ function applyLang(){
   document.getElementById('lsel').value=lang;
   updT();
 }
-
 function swTab(x){
   document.getElementById('tbl').classList.toggle('active',x==='l');
   document.getElementById('tbm').classList.toggle('active',x==='m');
@@ -815,6 +1093,9 @@ function swTab(x){
   document.getElementById('tm').classList.toggle('vis',x==='m');
 }
 
+/* ════════════════════════════════════════════════
+   RENDER PERSONAL LIST
+═══════════════════════════════════════════════ */
 function renderAll(){
   rG('lr',LA.filter(function(l){return l.part==='ruh';}),'l');
   rG('lb',LA.filter(function(l){return l.part==='body';}),'l');
@@ -824,21 +1105,16 @@ function renderAll(){
   rG('lad2',MA.filter(function(m){return m.gr==='adv';}),'m');
   updT();
 }
-
 function rG(cid,items,type){
   var el=document.getElementById(cid);if(!el)return;el.innerHTML='';
   items.forEach(function(item){
     var en=gE(item.id);
     var row=document.createElement('div');
     row.className='ir'+(en?'':' dis');row.id='row-'+item.id;
-    var nameDiv=type==='l'
-      ?'<div class="in">'+gN(item)+(lang==='en'?'<span class="iar">'+item.ar+'</span>':'')+'</div>'
-      :'<div class="in">'+gN(item)+'</div>';
+    var nameDiv=type==='l'?'<div class="in">'+gN(item)+(lang==='en'?'<span class="iar">'+item.ar+'</span>':'')+'</div>':'<div class="in">'+gN(item)+'</div>';
     row.innerHTML=
       '<div class="idot" style="background:'+item.col+';box-shadow:0 0 5px '+item.col+'66"></div>'+
-      '<div class="ii" onclick="showInfo(\''+item.id+'\',\''+type+'\')">'+
-        nameDiv+'<div class="isb">'+(type==='l'?item.lEn:item.dEn)+'</div>'+
-      '</div>'+
+      '<div class="ii" onclick="showInfo(\''+item.id+'\',\''+type+'\')">'+nameDiv+'<div class="isb">'+(type==='l'?item.lEn:item.dEn)+'</div></div>'+
       '<div class="ims">'+
         '<button class="mb" onclick="event.stopPropagation();chMin(\''+item.id+'\',\''+type+'\',-1)" '+(en?'':'disabled')+'>−</button>'+
         '<span class="mv" id="m-'+item.id+'">'+gMin(item.id,item.dm)+'</span>'+
@@ -851,26 +1127,37 @@ function rG(cid,items,type){
     el.appendChild(row);
   });
 }
-
-function togE(id,type,val){st[id+'_e']=!!val;svSt();if(type==='l')document.getElementById('sl').checked=false;else document.getElementById('sm').checked=false;renderAll();}
-function chMin(id,type,d){var def=type==='l'?LD.find(function(x){return x.id===id;}).dm:MD.find(function(x){return x.id===id;}).dm;var nv=Math.max(1,Math.min(99,gMin(id,def)+d));sMin(id,nv);var el=document.getElementById('m-'+id);if(el)el.textContent=nv;if(type==='l'&&document.getElementById('sl').checked){var f=LA.find(function(l){return gE(l.id);});if(f&&f.id===id)sLA(nv);}if(type==='m'&&document.getElementById('sm').checked){var f=MA.find(function(m){return gE(m.id);});if(f&&f.id===id)sMA(nv);}updT();}
+function togE(id,type,v){st[id+'_e']=!!v;svSt();if(type==='l')document.getElementById('sl').checked=false;else document.getElementById('sm').checked=false;renderAll();}
+function chMin(id,type,d){
+  var def=type==='l'?LD.find(function(x){return x.id===id;}).dm:MD.find(function(x){return x.id===id;}).dm;
+  var nv=Math.max(1,Math.min(99,gMin(id,def)+d));
+  sMin(id,nv);
+  var el=document.getElementById('m-'+id);if(el)el.textContent=nv;
+  if(type==='l'&&document.getElementById('sl').checked)sLA(nv);
+  if(type==='m'&&document.getElementById('sm').checked)sMA(nv);
+  updT();
+}
 function sLA(v){LA.filter(function(l){return gE(l.id);}).forEach(function(l){sMin(l.id,v);var e=document.getElementById('m-'+l.id);if(e)e.textContent=v;});updT();}
 function sMA(v){MA.filter(function(m){return gE(m.id);}).forEach(function(m){sMin(m.id,v);var e=document.getElementById('m-'+m.id);if(e)e.textContent=v;});updT();}
 function onSL(c){if(c){var f=LA.find(function(l){return gE(l.id);});if(f)sLA(gMin(f.id,f.dm));}}
 function onSM(c){if(c){var f=MA.find(function(m){return gE(m.id);});if(f)sMA(gMin(f.id,f.dm));}}
-function fC(d){var h=d.getHours(),m=d.getMinutes(),ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+String(m).padStart(2,'0')+' '+ap;}
-function updT(){var t1=LA.filter(function(l){return gE(l.id);}).reduce(function(a,l){return a+gMin(l.id,l.dm);},0);var t2=MA.filter(function(m){return gE(m.id);}).reduce(function(a,m){return a+gMin(m.id,m.dm);},0);var tot=t1+t2;var txt=t('total')+': <strong>'+tot+' min</strong>';if(tot>0)txt+=' &nbsp;·&nbsp; <span class="et">'+t('ends')+' '+fC(new Date(Date.now()+tot*60000))+'</span>';document.getElementById('tot').innerHTML=txt;}
+function fC(d){var h=d.getHours(),m=d.getMinutes(),ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+pad(m)+' '+ap;}
+function updT(){
+  var t1=LA.filter(function(l){return gE(l.id);}).reduce(function(a,l){return a+gMin(l.id,l.dm);},0);
+  var t2=MA.filter(function(m){return gE(m.id);}).reduce(function(a,m){return a+gMin(m.id,m.dm);},0);
+  var tot=t1+t2;
+  var txt=t('total')+': <strong>'+tot+' min</strong>';
+  if(tot>0)txt+=' &nbsp;·&nbsp; <span class="et">'+t('ends')+' '+fC(new Date(Date.now()+tot*60000))+'</span>';
+  document.getElementById('tot').innerHTML=txt;
+}
 
-/* ── PERSONAL SESSION ── */
+/* ════════════════════════════════════════════════
+   PERSONAL SESSION
+═══════════════════════════════════════════════ */
 function go(){
-  var la=LA.filter(function(l){return gE(l.id);}).map(function(l){
-    var o=LD.find(function(x){return x.id===l.id;});
-    return Object.assign({},o,{_t:'l',mins:gMin(l.id,l.dm)});
-  });
-  var ma=MA.filter(function(m){return gE(m.id);}).map(function(m){
-    var o=MD.find(function(x){return x.id===m.id;});
-    return Object.assign({},o,{_t:'m',mins:gMin(m.id,m.dm)});
-  });
+  if(joinedLive)return;
+  var la=LA.filter(function(l){return gE(l.id);}).map(function(l){var o=Object.assign({},LD.find(function(x){return x.id===l.id;}));o._t='l';o.mins=gMin(l.id,l.dm);return o;});
+  var ma=MA.filter(function(m){return gE(m.id);}).map(function(m){var o=Object.assign({},MD.find(function(x){return x.id===m.id;}));o._t='m';o.mins=gMin(m.id,m.dm);return o;});
   SI=la.concat(ma);
   if(!SI.length){alert('Please enable at least one item.');return;}
   document.getElementById('sv').style.display='none';
@@ -878,45 +1165,24 @@ function go(){
   document.getElementById('ssh').textContent=t('title');
   ci=0;run=false;rSL();rDots();setSC();bI(0);reqWL();
 }
-
-function rSL(){var el=document.getElementById('sl2');el.innerHTML='';var pt=null;SI.forEach(function(item,i){if(item._t!==pt){var lbl=document.createElement('div');lbl.className='slbl';lbl.textContent=item._t==='l'?t('ll'):t('ml');el.appendChild(lbl);pt=item._t;}var row=document.createElement('div');row.className='ir'+(i===ci?' active':i<ci?' done':'');row.id='sr-'+i;row.innerHTML='<div class="idot" style="background:'+item.col+';box-shadow:0 0 5px '+item.col+'66"></div><div class="ii"><div class="in" style="font-size:12px">'+gN(item)+'</div></div><span style="font-size:11px;color:var(--text2)">'+item.mins+'m</span>';el.appendChild(row);});}
+function rSL(){var el=document.getElementById('sl2');el.innerHTML='';var pt=null;SI.forEach(function(item,i){if(item._t!==pt){var lb=document.createElement('div');lb.className='slbl';lb.textContent=item._t==='l'?t('ll'):t('ml');el.appendChild(lb);pt=item._t;}var row=document.createElement('div');row.className='ir'+(i===ci?' active':i<ci?' done':'');row.id='sr-'+i;row.innerHTML='<div class="idot" style="background:'+item.col+';box-shadow:0 0 5px '+item.col+'66"></div><div class="ii"><div class="in" style="font-size:12px">'+gN(item)+'</div></div><span style="font-size:11px;color:var(--text2)">'+item.mins+'m</span>';el.appendChild(row);});}
 function rDots(){var el=document.getElementById('dots');el.innerHTML='';SI.forEach(function(item,i){var d=document.createElement('div');d.className='dot'+(i<ci?' done':'');d.id='sd-'+i;if(i===ci)d.style.background=item.col;el.appendChild(d);});}
 function setSC(){document.getElementById('sc').innerHTML='<button class="sb" onclick="tP()" id="pb">'+t('pause')+'</button><button class="sb" onclick="skI()">'+t('skip')+'</button><button class="sb" onclick="eS()">'+t('end')+'</button>';}
 function bI(idx){if(idx>=SI.length){finish();return;}ci=idx;var item=SI[idx];ts=item.mins*60;sleft=ts;startAt=Date.now();pausedAt=0;run=true;uTD();bldDC(item);rSL();rDots();if(TI)clearInterval(TI);TI=setInterval(tick,500);}
 function tick(){if(!run)return;sleft=Math.max(0,ts-Math.floor((Date.now()-startAt)/1000));uTD();if(sleft<=0){clearInterval(TI);ting();setTimeout(function(){bI(ci+1);},1400);}}
-function uTD(){var item=SI[ci];if(!item)return;document.getElementById('cn').textContent=gN(item)+'  ('+(ci+1)+'/'+SI.length+')';document.getElementById('ca').textContent=item.ar||'';if(item._t==='l'){document.getElementById('lcw').style.display='flex';var iW=item.id==='sirr';var lcd=document.getElementById('lcd');lcd.style.background=item.col;lcd.style.boxShadow='0 0 10px '+item.col+'99';lcd.style.border=iW?'1.5px solid rgba(255,255,255,0.6)':'none';document.getElementById('lcl').textContent=t('lc');document.getElementById('lcn').textContent=gNL(item);document.getElementById('lcn').style.color=iW?'#c0ccde':item.col;document.getElementById('pf').style.background=item.col;}else{document.getElementById('lcw').style.display='none';document.getElementById('pf').style.background='linear-gradient(90deg,var(--accent),var(--gold))';}var m=Math.floor(sleft/60),s=sleft%60;document.getElementById('clk').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');var pct=ts>0?((ts-sleft)/ts)*100:0;document.getElementById('pf').style.width=pct.toFixed(1)+'%';var el2=ts-sleft;document.getElementById('pl').textContent=Math.floor(el2/60)+'m '+(el2%60)+'s '+t('elapsed');var rem=sleft+SI.slice(ci+1).reduce(function(a,i){return a+i.mins*60;},0);document.getElementById('ed').textContent=t('ends')+' ~'+fC(new Date(Date.now()+rem*1000));var dot=document.getElementById('sd-'+ci);if(dot)dot.style.background=item.col;}
+function uTD(){var item=SI[ci];if(!item)return;document.getElementById('cn').textContent=gN(item)+'  ('+(ci+1)+'/'+SI.length+')';document.getElementById('ca').textContent=item.ar||'';if(item._t==='l'){document.getElementById('lcw').style.display='flex';var iW=item.id==='sirr';var lcd=document.getElementById('lcd');lcd.style.background=item.col;lcd.style.boxShadow='0 0 10px '+item.col+'99';lcd.style.border=iW?'1.5px solid rgba(255,255,255,0.6)':'none';document.getElementById('lcl').textContent=t('lc');document.getElementById('lcn').textContent=gNL(item);document.getElementById('lcn').style.color=iW?'#c0ccde':item.col;document.getElementById('pf').style.background=item.col;}else{document.getElementById('lcw').style.display='none';document.getElementById('pf').style.background='linear-gradient(90deg,var(--accent),var(--gold))';}var m=Math.floor(sleft/60),s=sleft%60;document.getElementById('clk').textContent=pad(m)+':'+pad(s);var pct=ts>0?((ts-sleft)/ts)*100:0;document.getElementById('pf').style.width=pct.toFixed(1)+'%';var el2=ts-sleft;document.getElementById('pl').textContent=Math.floor(el2/60)+'m '+(el2%60)+'s '+t('elapsed');var rem=sleft+SI.slice(ci+1).reduce(function(a,i){return a+i.mins*60;},0);document.getElementById('ed').textContent=t('ends')+' ~'+fC(new Date(Date.now()+rem*1000));var dot=document.getElementById('sd-'+ci);if(dot)dot.style.background=item.col;}
 function tP(){run=!run;if(run){if(pausedAt>0){startAt+=Date.now()-pausedAt;pausedAt=0;}}else{pausedAt=Date.now();}document.getElementById('pb').textContent=run?t('pause'):t('resume');}
 function skI(){clearInterval(TI);ting();setTimeout(function(){bI(ci+1);},700);}
 function eS(){clearInterval(TI);finish();}
-
 function bldDC(item){var dc=document.getElementById('dc');dc.style.display='block';dc.innerHTML=detailHTML(item,item._t);}
 function detailHTML(item,type){var h='';if(type==='l'){var iW=item.id==='sirr';var circ='<div style="width:26px;height:26px;border-radius:50%;background:'+item.col+';flex-shrink:0;'+(iW?'border:1.5px solid rgba(255,255,255,0.5);':'')+'box-shadow:0 0 8px '+item.col+'88;margin-top:1px"></div>';h+=dRow(circ,t('lc'),'<span style="color:'+(iW?'#c0ccde':item.col)+';font-weight:600">'+gNL(item)+'</span>');h+=dRow(ico('#c8a030'),t('fp2'),gP(item));h+=dRow(ico('#4a80c0'),t('hv'),gH(item));}else{h+=dRow(ico(item.col),t('desc'),gD(item),true);if(item.ayat){h+='<div class="dr">'+ico('#d4a820')+'<div style="flex:1;min-width:0"><div class="dl">'+t('ay')+'</div><div class="ayr">'+item.ayat.arabic+'</div><div class="ayrf">('+item.ayat.ref+')</div><div class="dl" style="margin-top:6px">'+t('tr')+'</div><div class="ayt">'+gTr(item.ayat)+'</div></div></div>';}}return h;}
 function ico(col){return '<div class="di" style="background:'+col+'22;color:'+col+'"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5" stroke="'+col+'" stroke-width="1.5"/><circle cx="7" cy="7" r="2" fill="'+col+'"/></svg></div>';}
 function dRow(icon,lbl,val,sm){return '<div class="dr">'+icon+'<div style="flex:1;min-width:0"><div class="dl">'+lbl+'</div><div class="'+(sm?'dvsm':'dv')+'">'+val+'</div></div></div>';}
-
 function finish(){clearInterval(TI);relWL();document.querySelector('.tc').style.display='none';document.getElementById('dc').style.display='none';document.getElementById('dots').style.display='none';document.getElementById('sl2').style.display='none';document.getElementById('sc').innerHTML='<button class="sb pr" onclick="rst()">'+t('newS')+'</button>';var f=document.getElementById('fin');f.style.display='block';document.getElementById('fh').textContent=t('finH');document.getElementById('fp').textContent=t('finP');document.getElementById('fq1').textContent=t('finQ1');document.getElementById('fq2').textContent=t('finQ2');tingEnd();}
 function rst(){run=false;if(TI)clearInterval(TI);relWL();document.getElementById('ssv').style.display='none';document.getElementById('sv').style.display='block';document.querySelector('.tc').style.display='block';document.getElementById('dc').style.display='block';document.getElementById('dots').style.display='flex';document.getElementById('sl2').style.display='block';document.getElementById('fin').style.display='none';renderAll();}
 
 function showInfo(id,type){var item=type==='l'?LD.find(function(x){return x.id===id;}):MD.find(function(x){return x.id===id;});if(!item)return;var iW=item.id==='sirr';var mdo=document.getElementById('mdo');mdo.style.background=item.col;mdo.style.boxShadow='0 0 8px '+item.col+'99';mdo.style.border=iW?'1.5px solid rgba(255,255,255,0.5)':'none';document.getElementById('mti').textContent=gN(item);document.getElementById('mar2').textContent=item.ar;var h=detailHTML(item,type);if(type==='l')h+=dRow(ico('#607080'),t('loc'),gL(item));document.getElementById('mb3').innerHTML=h;document.getElementById('mo').style.display='flex';}
 function cmo(e){if(e.target===document.getElementById('mo'))document.getElementById('mo').style.display='none';}
-
-function initFirebase(){
-  try{
-    db.ref('/session').on('value',function(snap){
-      var d=snap.val()||{};
-      liveSession.active=d.active===true;
-      liveSession.current=d.current||null;
-      liveSession.type=d.type||'maghrib';
-      if(d.active&&d.startedAt&&sessionStartTime===0){
-        sessionStartTime=d.startedAt;
-      }
-      if(!d.active){sessionStartTime=0;stopDurTimer();}
-      updateLiveBanner();
-      if(joinedLive&&liveSession.current)showLiveItem(liveSession.current);
-      if(access>=ACC.HELPER)updateAdminUI();
-    });
-  }catch(e){console.log('Firebase init error:',e);}
-}
 
 /* Android back */
 history.pushState(null,null,location.href);
@@ -924,21 +1190,38 @@ window.addEventListener('popstate',function(){
   history.pushState(null,null,location.href);
   if(document.getElementById('mo').style.display!=='none'){document.getElementById('mo').style.display='none';return;}
   if(document.getElementById('ssv').style.display!=='none'){if(run){run=false;clearInterval(TI);}relWL();rst();return;}
-  if(access>=ACC.HELPER&&document.getElementById('admin-panel').style.display!=='none'){document.getElementById('admin-panel').style.display='none';document.getElementById('personal-panel').style.display='block';}
+  var ap=document.getElementById('admin-panel');
+  if(access>=ACC.HELPER&&ap.style.display!=='none'){ap.style.display='none';document.getElementById('personal-panel').style.display='block';}
 });
 
-/* Use window.onload — most reliable for Android WebView file:// protocol */
-window.onload=function(){
+/* ════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded',function(){
   try{
-    if(!st._v9){LD.forEach(function(l){st[l.id+'_e']=true;});MD.forEach(function(m){st[m.id+'_e']=false;});st._v9=true;svSt();}
+    access=ldAcc();
+    if(access===ACC.ADMIN){
+      document.getElementById('admin-btn').textContent='Admin ✓';
+      document.getElementById('admin-btn').classList.add('active');
+      document.getElementById('mic-row').style.display='flex';
+      showAdminPanel();
+    } else if(access===ACC.HELPER){
+      document.getElementById('admin-btn').textContent='Helper ✓';
+      document.getElementById('admin-btn').classList.add('active');
+      showAdminPanel();
+    }
     applyLang();
     renderAll();
     initFirebase();
+    /* Fetch session state immediately after render so banner appears instantly */
+    fetch(FB+'/session.json')
+      .then(function(r){return r.json();})
+      .then(function(d){if(d&&d.active)processSnapshot(d);})
+      .catch(function(){});
   }catch(e){
-    /* Show error visibly on screen for debugging */
     document.body.innerHTML+='<div style="position:fixed;top:0;left:0;right:0;background:red;color:white;padding:20px;font-size:14px;z-index:9999">ERROR: '+e.message+'</div>';
   }
-};
+});
 </script>
 </body>
 </html>
