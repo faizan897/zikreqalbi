@@ -328,18 +328,7 @@ body{background-image:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(124,106,247
           <div class="als-cur-ar" id="als-cur-ar"></div>
         </div>
       </div>
-async function fetchAgoraToken(role){
-  try{
-    var uid=Math.floor(Math.random()*100000);
-    var url='https://agora-token-service-production-5f3f.up.railway.app/rtc/'+AGORA_CHANNEL+'/'+(role==='host'?'publisher':'subscriber')+'/uid/'+uid+'/?expiry=86400';
-    var r=await fetch(url);
-    var d=await r.json();
-    return d.rtcToken||null;
-  }catch(e){
-    console.warn('Token fetch failed:',e);
-    return null;
-  }
-}
+
       <!-- Mic (admin only) -->
       <div class="mic-row" id="mic-row" style="display:none">
         <button class="mic-btn" id="mic-btn" onclick="toggleMic()">
@@ -503,7 +492,18 @@ function loadAgora(){
     document.head.appendChild(s);
   });
 }
-
+async function fetchAgoraToken(role){
+  try{
+    var uid=Math.floor(Math.random()*100000);
+    var url='https://agora-token-service-production-5f3f.up.railway.app/rtc/'+AGORA_CHANNEL+'/'+(role==='host'?'publisher':'subscriber')+'/uid/'+uid+'/?expiry=86400';
+    var r=await fetch(url);
+    var d=await r.json();
+    return d.rtcToken||null;
+  }catch(e){
+    console.warn('Token fetch failed:',e);
+    return null;
+  }
+}
 async function toggleMic(){
   if(access!==ACC.ADMIN)return;
   if(!micOn){
